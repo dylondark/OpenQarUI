@@ -10,6 +10,17 @@ Window {
     visible: true
     title: qsTr("OpenQarUI")
 
+    Image {
+        id: background
+        anchors.fill: parent
+        fillMode: Image.PreserveAspectCrop
+
+        ColumnLayout {
+            id: masterLayout
+            anchors.fill: parent
+        }
+    }
+
     InputPanel {
         id: inputPanel
         z: 99
