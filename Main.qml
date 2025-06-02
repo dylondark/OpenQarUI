@@ -26,6 +26,7 @@ Window {
                 id: statusBar
                 Layout.preferredHeight: 40
                 Layout.fillWidth: true
+                radius: 5
             }
 
             Rectangle{
@@ -39,17 +40,13 @@ Window {
                 radius: 5
             }
 
-            Rectangle{
-                id: controlBarBase
+            ControlBar {
+                id: controlBar
                 Layout.preferredHeight: 80
                 Layout.fillWidth: true
-                color: "white"
-                opacity: 0.8
-                border.color: "black"
-                border.width: 1
-                radius: 10
                 Layout.leftMargin: 20
                 Layout.rightMargin: 20
+                radius: 10
             }
         }
 

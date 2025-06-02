@@ -1,7 +1,7 @@
 import QtQuick
 
 Rectangle {
-    id: statusBarBase
+    id: controlBarBase
     color: "white"
     opacity: 0.8
     border.color: "black"

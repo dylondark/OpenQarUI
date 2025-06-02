@@ -21,6 +21,7 @@ qt_add_qml_module(appOpenQarUI
     QML_FILES
         Main.qml
         StatusBar.qml
+        ControlBar.qml
         RESOURCES resources.qrc
 )
 
