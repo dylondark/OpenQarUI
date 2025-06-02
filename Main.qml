@@ -1,12 +1,14 @@
 import QtQuick
 import QtQuick.VirtualKeyboard
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 2.15
 
 Window {
     id: window
-    width: 640
-    height: 480
+    width: 1280
+    height: 720
     visible: true
-    title: qsTr("Hello World")
+    title: qsTr("OpenQarUI")
 
     InputPanel {
         id: inputPanel
