@@ -8,8 +8,11 @@ find_package(Qt6 REQUIRED COMPONENTS Quick)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
+set(CMAKE_AUTORCC ON)
+
 qt_add_executable(appOpenQarUI
     main.cpp
+    resources.qrc
 )
 
 qt_add_qml_module(appOpenQarUI
@@ -17,6 +20,7 @@ qt_add_qml_module(appOpenQarUI
     VERSION 1.0
     QML_FILES
         Main.qml
+        RESOURCES resources.qrc
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
