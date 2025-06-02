@@ -22,15 +22,10 @@ Window {
             anchors.margins: 20
             spacing: 20
 
-            Rectangle{
-                id: statusBarBase
+            StatusBar {
+                id: statusBar
                 Layout.preferredHeight: 40
                 Layout.fillWidth: true
-                color: "white"
-                opacity: 0.8
-                border.color: "black"
-                border.width: 1
-                radius: 5
             }
 
             Rectangle{
