@@ -19,6 +19,43 @@ Window {
         ColumnLayout {
             id: masterLayout
             anchors.fill: parent
+            anchors.margins: 20
+            spacing: 20
+
+            Rectangle{
+                id: statusBarBase
+                Layout.preferredHeight: 40
+                Layout.fillWidth: true
+                color: "white"
+                opacity: 0.8
+                border.color: "black"
+                border.width: 1
+                radius: 5
+            }
+
+            Rectangle{
+                id: pageBase
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                color: "transparent"
+                opacity: 0.3
+                border.color: "black"
+                border.width: 1
+                radius: 5
+            }
+
+            Rectangle{
+                id: controlBarBase
+                Layout.preferredHeight: 80
+                Layout.fillWidth: true
+                color: "white"
+                opacity: 0.8
+                border.color: "black"
+                border.width: 1
+                radius: 10
+                Layout.leftMargin: 20
+                Layout.rightMargin: 20
+            }
         }
 
         InputPanel {
