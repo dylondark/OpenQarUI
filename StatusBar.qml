@@ -14,16 +14,57 @@ Rectangle {
         anchors.fill: parent
         spacing: 10
 
-        Item {
+        RowLayout {
             id: widgetsBase
             Layout.fillWidth: true
             Layout.fillHeight: true
+            spacing: 10
+            Layout.leftMargin: 10
+            Layout.alignment: Qt.AlignLeft
+
+            Rectangle {
+                // this is a placeholder for a widget
+                id: widget1
+                color: "lightgray"
+                opacity: 0.5
+                Layout.fillHeight: true
+                Layout.preferredWidth: 40
+                border.color: black
+                border.width: 1
+            }
+
+            Rectangle {
+                // this is a placeholder for a widget
+                id: widget2
+                color: "lightgray"
+                opacity: 0.5
+                Layout.fillHeight: true
+                Layout.preferredWidth: 40
+                border.color: black
+                border.width: 1
+            }
+
+            Item {
+                id: ellipses
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                Text {
+                    id: ellipsesText
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.left: parent.left
+                    text: "• • •"
+                    font.pixelSize: 20
+                    font.bold: true
+                }
+            }
         }
 
         Item {
             id: clockBase
             Layout.fillHeight: true
             Layout.preferredWidth: clockText.width
+            Layout.alignment: Qt.AlignHCenter
 
             property string currentTime: Qt.formatTime(new Date(), "hh:mm AP")
 
@@ -48,8 +89,8 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
             spacing: 10
-            Layout.leftMargin: 10
             Layout.rightMargin: 10
+            Layout.alignment: Qt.AlignRight
 
             Item {
                 id: phoneTextBase
