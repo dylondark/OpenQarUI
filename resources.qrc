@@ -5,5 +5,9 @@
         <file>images/battery-placeholder.png</file>
         <file>images/signalbars-placeholder.png</file>
         <file>images/home.png</file>
+        <file>images/skip.png</file>
+        <file>images/previous.png</file>
+        <file>images/play.png</file>
+        <file>images/pause.png</file>
     </qresource>
 </RCC>
