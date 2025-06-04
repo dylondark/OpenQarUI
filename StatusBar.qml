@@ -21,6 +21,7 @@ Rectangle {
             spacing: 10
             Layout.leftMargin: 10
             Layout.alignment: Qt.AlignLeft
+            visible: false // gonna hide this until i actually start working on it
 
             Rectangle {
                 // this is a placeholder for a widget
@@ -65,6 +66,7 @@ Rectangle {
             Layout.fillHeight: true
             Layout.preferredWidth: clockText.width
             Layout.alignment: Qt.AlignHCenter
+            Layout.leftMargin: 10
 
             property string currentTime: Qt.formatTime(new Date(), "hh:mm AP")
 
