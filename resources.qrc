@@ -4,5 +4,6 @@
         <file>images/default-background-dark.png</file>
         <file>images/battery-placeholder.png</file>
         <file>images/signalbars-placeholder.png</file>
+        <file>images/home.png</file>
     </qresource>
 </RCC>
