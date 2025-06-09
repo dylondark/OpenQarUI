@@ -8,9 +8,10 @@ ScrollView {
     Layout.fillWidth: true
     Layout.fillHeight: true
     ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+    onWidthChanged: column.width = pageBase.width // for some reason the column cant update its own width...
 
     Column {
-        width: parent.width
+        id: column
 
         Pages.MainMenu {
             id: mainMenuPage
