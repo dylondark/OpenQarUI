@@ -53,7 +53,7 @@ Rectangle {
             ColumnLayout {
                id: songTextLayout
                 Layout.fillHeight: true
-                Layout.fillWidth: false
+                Layout.fillWidth: true
                 Layout.leftMargin: 10
                 spacing: 0
 
@@ -147,10 +147,45 @@ Rectangle {
 
         ToolSeparator { }
 
-        Item {
+        RowLayout {
             id: volumeBase
             Layout.fillHeight: true
             Layout.fillWidth: true
+            spacing: 10
+
+            Image {
+                id: volumeIcon
+                Layout.fillHeight: true
+                Layout.preferredWidth: height
+                source: "qrc:/images/volume.png"
+                fillMode: Image.PreserveAspectFit
+                smooth: true
+                Layout.margins: 10
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        console.log("Volume icon clicked")
+                        // Implement volume control functionality here
+                    }
+                }
+            }
+
+            Slider {
+                id: volumeSlider
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                from: 0
+                to: 100
+                stepSize: 1
+                value: 50 // Default volume level
+                Layout.rightMargin: 10
+
+                onValueChanged: {
+                    console.log("Volume changed to " + value);
+                    // Implement volume change functionality here
+                }
+            }
         }
     }
 }
