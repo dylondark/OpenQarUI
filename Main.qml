@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.VirtualKeyboard
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
+import "pages" as Pages
 
 Window {
     id: window
@@ -29,15 +30,22 @@ Window {
                 radius: 5
             }
 
-            Rectangle{
+            ScrollView {
                 id: pageBase
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                color: "transparent"
-                opacity: 0.3
-                border.color: "black"
-                border.width: 1
-                radius: 5
+                ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+
+                Column {
+                    width: parent.width
+
+                    Pages.MainMenu {
+                        id: mainMenuPage
+                        width: parent.width
+                        height: width / 2
+                        anchors.margins: 10
+                    }
+                }
             }
 
             ControlBar {
