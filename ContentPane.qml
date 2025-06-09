@@ -15,7 +15,6 @@ ScrollView {
         Pages.MainMenu {
             id: mainMenuPage
             width: parent.width
-            height: width / 2
             anchors.margins: 10
         }
     }
