@@ -42,6 +42,7 @@ Rectangle {
                 anchors.fill: parent
                 source: baseRect.iconSource
                 fillMode: Image.PreserveAspectFit
+                smooth: true
             }
         }
     }
