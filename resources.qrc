@@ -10,5 +10,6 @@
         <file>images/play.png</file>
         <file>images/pause.png</file>
         <file>images/volume.png</file>
+        <file>images/placeholder.png</file>
     </qresource>
 </RCC>
