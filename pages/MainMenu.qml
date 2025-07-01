@@ -11,13 +11,15 @@ GridLayout {
     rowSpacing: 10
 
     MenuButton {
-        id: menuButton1
-        titleText: "Menu Button 1"
+        id: musicButton
+        titleText: "Music"
+        iconSource: "qrc:/images/music.png"
     }
 
     MenuButton {
-        id: menuButton2
-        titleText: "Menu Button 2"
+        id: settingsButton
+        titleText: "Settings"
+        iconSource: "qrc:/images/settings.png"
     }
 
     // if there are less items than it takes to fill a full row, use this to fill the whole row

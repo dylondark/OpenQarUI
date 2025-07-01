@@ -11,5 +11,7 @@
         <file>images/pause.png</file>
         <file>images/volume.png</file>
         <file>images/placeholder.png</file>
+        <file>images/music.png</file>
+        <file>images/settings.png</file>
     </qresource>
 </RCC>
