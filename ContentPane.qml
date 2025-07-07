@@ -12,11 +12,43 @@ ScrollView {
 
     Column {
         id: column
+        //anchors.fill: parent
 
-        Pages.MainMenu {
-            id: mainMenuPage
-            width: parent.width
-            anchors.margins: 10
+        StackView {
+            id: stackView
+            anchors.fill: parent
+            initialItem: mainMenuComponent
+
+            pushEnter: Transition {
+                NumberAnimation { property: "x"; from: pageBase.width; to: 0; duration: 250; easing.type: Easing.InOutQuad }
+            }
+
+            popExit: Transition {
+                NumberAnimation { property: "x"; from: 0; to: pageBase.width; duration: 250; easing.type: Easing.InOutQuad }
+            }
+
+            // Home/Main page component
+            Component {
+                id: mainMenuComponent
+
+                Pages.MainMenu {
+                    id: mainMenu
+                    width: pageBase.width
+                    anchors.margins: 10
+                }
+            }
+
+            // Settings page component
+            Component {
+                id: settingsPageComponent
+
+                Pages.SettingsPage {
+                    id: settingsPage
+                    anchors.fill: parent
+                    //width: pageBase.width
+                    anchors.margins: 10
+                }
+            }
         }
     }
 }

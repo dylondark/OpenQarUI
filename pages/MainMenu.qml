@@ -20,6 +20,13 @@ GridLayout {
         id: settingsButton
         titleText: "Settings"
         iconSource: "qrc:/images/settings.png"
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                stackView.push(settingsPageComponent)
+            }
+        }
     }
 
     // if there are less items than it takes to fill a full row, use this to fill the whole row

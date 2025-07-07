@@ -26,6 +26,7 @@ qt_add_qml_module(appOpenQarUI
         QML_FILES pages/MainMenu.qml
         QML_FILES ContentPane.qml
         QML_FILES pages/MenuButton.qml
+        QML_FILES pages/SettingsPage.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
