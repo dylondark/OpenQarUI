@@ -10,6 +10,10 @@ ScrollView {
     ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
     onWidthChanged: column.width = pageBase.width // for some reason the column cant update its own width...
 
+    function goHome() {
+        stackView.pop(stackView.depth - 1) // pop all items except the first one (main menu)
+    }
+
     Column {
         id: column
         //anchors.fill: parent

@@ -9,6 +9,8 @@ Rectangle {
     border.color: "black"
     border.width: 1
 
+    signal goHomeRequested()
+
     RowLayout {
         id: baseLayout
         anchors.fill: parent
@@ -27,7 +29,7 @@ Rectangle {
                 anchors.fill: parent
                 onClicked: {
                     console.log("Home button clicked")
-                    // Implement home button functionality here
+                    controlBarBase.goHomeRequested()
                 }
             }
         }

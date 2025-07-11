@@ -43,6 +43,13 @@ Window {
                 Layout.rightMargin: 20
                 radius: 10
             }
+
+            Connections {
+                target: controlBar
+                function onGoHomeRequested() {
+                    contentPane.goHome()
+                }
+            }
         }
 
         InputPanel {
