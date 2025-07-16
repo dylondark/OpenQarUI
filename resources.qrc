@@ -13,5 +13,7 @@
         <file>images/placeholder.png</file>
         <file>images/music.png</file>
         <file>images/settings.png</file>
+        <file>images/file.png</file>
+        <file>images/bluetooth.png</file>
     </qresource>
 </RCC>

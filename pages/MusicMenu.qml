@@ -11,29 +11,15 @@ GridLayout {
     rowSpacing: 10
 
     MenuButton {
-        id: musicButton
-        titleText: "Music"
-        iconSource: "qrc:/images/music.png"
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                stackView.push(musicMenuComponent)
-            }
-        }
+        id: bluetoothButton
+        titleText: "Bluetooth"
+        iconSource: "qrc:/images/bluetooth.png"
     }
 
     MenuButton {
-        id: settingsButton
-        titleText: "Settings"
-        iconSource: "qrc:/images/settings.png"
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: {
-                stackView.push(settingsPageComponent)
-            }
-        }
+        id: localButton
+        titleText: "Local Files"
+        iconSource: "qrc:/images/file.png"
     }
 
     // if there are less items than it takes to fill a full row, use this to fill the whole row
