@@ -37,7 +37,8 @@ ScrollView {
 
                 Pages.MainMenu {
                     id: mainMenu
-                    width: pageBase.width
+                    anchors.left: stackView.left
+                    anchors.right: stackView.right
                     anchors.margins: 10
                 }
             }
