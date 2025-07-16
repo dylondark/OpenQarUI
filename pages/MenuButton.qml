@@ -9,6 +9,7 @@ Rectangle {
     border.width: 1
     Layout.fillWidth: true
     Layout.preferredHeight: width
+    radius: 6
 
     property string titleText: "Menu Button"
     property string iconSource: "qrc:/images/placeholder.png"
