@@ -14,6 +14,14 @@ GridLayout {
         id: bluetoothButton
         titleText: "Bluetooth"
         iconSource: "qrc:/images/bluetooth.png"
+
+        MouseArea {
+            anchors.fill: parent
+
+            onClicked: {
+                stackView.push(bluetoothMusicPageComponent)
+            }
+        }
     }
 
     MenuButton {

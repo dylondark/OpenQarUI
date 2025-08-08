@@ -65,6 +65,16 @@ ScrollView {
                     anchors.margins: 10
                 }
             }
+
+            Component {
+                id: bluetoothMusicPageComponent
+
+                Pages.BluetoothMusicPage {
+                    id: bluetoothMusicPage
+                    anchors.fill: parent
+                    //anchors.margins: 10
+                }
+            }
         }
     }
 }
