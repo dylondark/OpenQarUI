@@ -66,7 +66,7 @@ Page {
                             id: trackInfoContainer
                             Layout.fillWidth: true
                             Layout.fillHeight: true
-                            //Layout.margins: 10
+                            Layout.rightMargin: 65
 
                             Text {
                                 id: trackInfo
