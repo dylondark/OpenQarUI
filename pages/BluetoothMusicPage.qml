@@ -69,12 +69,34 @@ Page {
                             Layout.rightMargin: 65
 
                             Text {
-                                id: trackInfo
+                                id: trackTitle
+                                anchors.bottom: trackArtist.top
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                text: "Title"
+                                font.pointSize: 24
+                                font.bold: true
+                                horizontalAlignment: Text.AlignHCenter
+                            }
+
+                            Text {
+                                id: trackArtist
+                                anchors.bottom: trackAlbum.top
+                                anchors.left: parent.left
+                                anchors.right: parent.right
+                                text: "Artist"
+                                font.pointSize: 24
+                                horizontalAlignment: Text.AlignHCenter
+                            }
+
+                            Text {
+                                id: trackAlbum
                                 anchors.bottom: parent.bottom
                                 anchors.left: parent.left
                                 anchors.right: parent.right
-                                text: "Title\nArtist\nAlbum"
+                                text: "Album"
                                 font.pointSize: 24
+                                font.italic: true
                                 horizontalAlignment: Text.AlignHCenter
                             }
                         }
