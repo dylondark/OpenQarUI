@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import OpenQarUI
 
 Page {
     id: page
@@ -145,7 +146,7 @@ Page {
                                                 parent.play = false;
                                                 playPauseButton.source = "qrc:/images/pause.png";
                                                 console.log("Play button clicked");
-                                                // Implement play functionality here
+                                                BluetoothMediaController.play();
                                             } else {
                                                 parent.play = true;
                                                 playPauseButton.source = "qrc:/images/play.png";

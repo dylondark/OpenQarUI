@@ -23,10 +23,15 @@ BluetoothMediaController::BluetoothMediaController(QObject *parent)
 
 // Playback control methods
 void BluetoothMediaController::play() {
-    std::cout << "Play called" << std::endl;
-    // TODO: Call Play() on the DBus MediaPlayer interface
-    m_playing = true;
-    emit playingChanged();
+    QDBusReply<void> reply = m_mediaPlayerInterface->call("Play");
+
+    if (reply.isValid()) {
+        std::cout << "Play command sent successfully." << std::endl;
+        m_playing = true;
+        emit playingChanged();
+    } else {
+        std::cerr << "Error: " << reply.error().message().toStdString() << std::endl;
+    }
 }
 
 void BluetoothMediaController::pause() {

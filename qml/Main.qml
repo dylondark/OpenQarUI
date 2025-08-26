@@ -12,7 +12,7 @@ Window {
     title: qsTr("OpenQarUI")
 
     Component.onCompleted: {
-        BluetoothMediaController.connectToDevice("AC_C0_48_68_67_9E");
+        BluetoothMediaController.connectToDevice("AC_C0_48_68_67_9E"); // temporary hardcoded mac until gui based device select
     }
 
     Image {
