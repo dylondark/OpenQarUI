@@ -11,8 +11,11 @@ qt_standard_project_setup(REQUIRES 6.8)
 
 set(CMAKE_AUTORCC ON)
 
+# Add include directory for headers
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+
 qt_add_executable(appOpenQarUI
-    main.cpp
+    src/main.cpp
     resources.qrc
 )
 
@@ -23,21 +26,20 @@ qt_add_qml_module(appOpenQarUI
         Main.qml
         StatusBar.qml
         ControlBar.qml
-        RESOURCES resources.qrc
-        QML_FILES pages/MainMenu.qml
-        QML_FILES ContentPane.qml
-        QML_FILES pages/MenuButton.qml
-        QML_FILES pages/SettingsPage.qml
-        QML_FILES pages/MusicMenu.qml
-        QML_FILES pages/BluetoothMusicPage.qml
-        SOURCES bluetoothmediacontroller.h bluetoothmediacontroller.cpp
+        ContentPane.qml
+        pages/MainMenu.qml
+        pages/MenuButton.qml
+        pages/SettingsPage.qml
+        pages/MusicMenu.qml
+        pages/BluetoothMusicPage.qml
+    RESOURCES
+        resources.qrc
+    SOURCES
+        src/bluetoothmediacontroller.cpp
+        include/bluetoothmediacontroller.h
 )
 
-# Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
-# If you are developing for iOS or macOS you should consider setting an
-# explicit, fixed bundle identifier manually though.
 set_target_properties(appOpenQarUI PROPERTIES
-#    MACOSX_BUNDLE_GUI_IDENTIFIER com.example.appOpenQarUI
     MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
     MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
     MACOSX_BUNDLE TRUE
@@ -46,8 +48,8 @@ set_target_properties(appOpenQarUI PROPERTIES
 
 target_link_libraries(appOpenQarUI
     PRIVATE Qt6::Quick
+    PRIVATE Qt6::Core
 )
-target_link_libraries(appOpenQarUI PRIVATE Qt6::Core)
 
 include(GNUInstallDirs)
 install(TARGETS appOpenQarUI
