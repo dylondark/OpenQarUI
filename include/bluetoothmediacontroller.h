@@ -9,7 +9,6 @@
 
 #include <QObject>
 #include <QtDBus/QtDBus>
-#include <iostream>
 
 class BluetoothMediaController : public QObject
 {
