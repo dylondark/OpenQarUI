@@ -12,8 +12,13 @@ BluetoothMediaController::BluetoothMediaController(QObject *parent)
     m_duration(0),
     m_position(0)
 {
-    // TODO: Initialize DBus connection and proxies here
-    // For example, connect to system bus and prepare MediaPlayer1 interface
+    // init system dbus connection
+    *systemBus = QDBusConnection::systemBus();
+    if (!systemBus->isConnected()) {
+        std::cerr << "Cannot connect to the D-Bus system bus" << std::endl;
+        emit errorOccurred("Cannot connect to the D-Bus system bus");
+        return;
+    }
 }
 
 // Playback control methods

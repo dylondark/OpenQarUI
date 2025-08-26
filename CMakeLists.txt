@@ -54,6 +54,7 @@ set_target_properties(appOpenQarUI PROPERTIES
 target_link_libraries(appOpenQarUI
     PRIVATE Qt6::Quick
     PRIVATE Qt6::Core
+    PRIVATE Qt6::DBus
 )
 
 # Install rules
