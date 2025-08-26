@@ -47,20 +47,41 @@ void BluetoothMediaController::pause() {
 }
 
 void BluetoothMediaController::stop() {
-    std::cout << "Stop called" << std::endl;
-    // TODO: Call Stop() on the DBus MediaPlayer interface
-    m_playing = false;
-    emit playingChanged();
+    QDBusReply<void> reply = m_mediaPlayerInterface->call("Stop");
+
+    if (reply.isValid()) {
+        std::cout << "Stop command sent successfully." << std::endl;
+        m_playing = false;
+        emit playingChanged();
+    } else {
+        std::cerr << "Error: " << reply.error().message().toStdString() << std::endl;
+    }
 }
 
 void BluetoothMediaController::next() {
-    std::cout << "Next called" << std::endl;
-    // TODO: Call Next() on the DBus MediaPlayer interface
+    QDBusReply<void> reply = m_mediaPlayerInterface->call("Next");
+
+    if (reply.isValid()) {
+        std::cout << "Next command sent successfully." << std::endl;
+        m_playing = true; // are we sure it will be playing though?
+        emit trackChanged();
+        emit positionChanged();
+    } else {
+        std::cerr << "Error: " << reply.error().message().toStdString() << std::endl;
+    }
 }
 
 void BluetoothMediaController::previous() {
-    std::cout << "Previous called" << std::endl;
-    // TODO: Call Previous() on the DBus MediaPlayer interface
+    QDBusReply<void> reply = m_mediaPlayerInterface->call("Previous");
+
+    if (reply.isValid()) {
+        std::cout << "Previous command sent successfully." << std::endl;
+        m_playing = true;
+        emit trackChanged(); // not guaranteed but does it matter?
+        emit positionChanged();
+    } else {
+        std::cerr << "Error: " << reply.error().message().toStdString() << std::endl;
+    }
 }
 
 void BluetoothMediaController::seek(int positionMs) {

@@ -123,8 +123,8 @@ Page {
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked: {
-                                            console.log("Play/Pause button clicked")
-                                            // Implement play/pause functionality here
+                                            console.log("Previous button clicked")
+                                            BluetoothMediaController.previous();
                                         }
                                     }
                                 }
@@ -169,7 +169,7 @@ Page {
                                         anchors.fill: parent
                                         onClicked: {
                                             console.log("Next button clicked")
-                                            // Implement next track functionality here
+                                            BluetoothMediaController.next();
                                         }
                                     }
                                 }
