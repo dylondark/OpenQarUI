@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.VirtualKeyboard
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
+import OpenQarUI
 
 Window {
     id: window

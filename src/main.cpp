@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
         Qt::QueuedConnection);
 
     BluetoothMediaController bmc;
-    qmlRegisterSingletonInstance<BluetoothMediaController>("MyApp", 1, 0, "BluetoothMediaController", &bmc);
+    qmlRegisterSingletonInstance<BluetoothMediaController>("OpenQarUI", 1, 0, "BluetoothMediaController", &bmc);
 
     engine.loadFromModule("OpenQarUI", "Main");
 
