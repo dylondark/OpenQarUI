@@ -10,11 +10,11 @@ BluetoothMediaController::BluetoothMediaController(QObject *parent)
     : QObject(parent),
     m_playing(false),
     m_duration(0),
-    m_position(0)
+    m_position(0),
+    systemBus(QDBusConnection::systemBus())
 {
     // init system dbus connection
-    *systemBus = QDBusConnection::systemBus();
-    if (!systemBus->isConnected()) {
+    if (!systemBus.isConnected()) {
         std::cerr << "Cannot connect to the D-Bus system bus" << std::endl;
         emit errorOccurred("Cannot connect to the D-Bus system bus");
         return;
@@ -69,7 +69,7 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress) {
     const QString path = "/org/bluez/hci0/dev_" + m_deviceAddress.replace(":", "_") + "/avrcp/player0";
     const QString interface = "org.bluez.MediaPlayer1";
 
-    m_mediaPlayerInterface = new QDBusInterface(service, path, interface, *systemBus, this);
+    m_mediaPlayerInterface = new QDBusInterface(service, path, interface, systemBus, this);
     if (!m_mediaPlayerInterface->isValid()) {
         std::cerr << "Failed to create D-Bus interface for device" << std::endl;
         emit errorOccurred("Failed to create D-Bus interface for device");

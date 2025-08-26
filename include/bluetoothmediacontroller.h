@@ -66,7 +66,7 @@ private:
     int m_position;
 
     // DBus interface/proxy objects
-    QDBusConnection* systemBus;
+    QDBusConnection systemBus;
     QDBusInterface* m_mediaPlayerInterface;
 
     void updatePlaybackStatus();

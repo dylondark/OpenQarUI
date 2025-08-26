@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include "bluetoothmediacontroller.h"
 
 int main(int argc, char *argv[])
 {
@@ -14,6 +15,10 @@ int main(int argc, char *argv[])
         &app,
         []() { QCoreApplication::exit(-1); },
         Qt::QueuedConnection);
+
+    BluetoothMediaController bmc;
+    qmlRegisterSingletonInstance<BluetoothMediaController>("MyApp", 1, 0, "BluetoothMediaController", &bmc);
+
     engine.loadFromModule("OpenQarUI", "Main");
 
     return app.exec();

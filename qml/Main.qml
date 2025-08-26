@@ -10,6 +10,10 @@ Window {
     visible: true
     title: qsTr("OpenQarUI")
 
+    Component.onCompleted: {
+        BluetoothMediaController.connectToDevice("AC_C0_48_68_67_9E");
+    }
+
     Image {
         id: background
         anchors.fill: parent
