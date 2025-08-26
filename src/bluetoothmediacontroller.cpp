@@ -35,10 +35,15 @@ void BluetoothMediaController::play() {
 }
 
 void BluetoothMediaController::pause() {
-    std::cout << "Pause called" << std::endl;
-    // TODO: Call Pause() on the DBus MediaPlayer interface
-    m_playing = false;
-    emit playingChanged();
+    QDBusReply<void> reply = m_mediaPlayerInterface->call("Pause");
+
+    if (reply.isValid()) {
+        std::cout << "Pause command sent successfully." << std::endl;
+        m_playing = false;
+        emit playingChanged();
+    } else {
+        std::cerr << "Error: " << reply.error().message().toStdString() << std::endl;
+    }
 }
 
 void BluetoothMediaController::stop() {

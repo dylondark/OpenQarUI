@@ -151,7 +151,7 @@ Page {
                                                 parent.play = true;
                                                 playPauseButton.source = "qrc:/images/play.png";
                                                 console.log("Pause button clicked");
-                                                // Implement pause functionality here
+                                                BluetoothMediaController.pause();
                                             }
                                         }
                                     }
