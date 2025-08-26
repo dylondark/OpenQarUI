@@ -64,7 +64,18 @@ void BluetoothMediaController::seek(int positionMs) {
 void BluetoothMediaController::connectToDevice(const QString &deviceAddress) {
     std::cout << "Connect to device: " << deviceAddress.toStdString() << std::endl;
     m_deviceAddress = deviceAddress;
-    // TODO: Initialize DBus interface for this device
+
+    const QString service = "org.bluez";
+    const QString path = "/org/bluez/hci0/dev_" + m_deviceAddress.replace(":", "_") + "/avrcp/player0";
+    const QString interface = "org.bluez.MediaPlayer1";
+
+    m_mediaPlayerInterface = new QDBusInterface(service, path, interface, *systemBus, this);
+    if (!m_mediaPlayerInterface->isValid()) {
+        std::cerr << "Failed to create D-Bus interface for device" << std::endl;
+        emit errorOccurred("Failed to create D-Bus interface for device");
+        return;
+    }
+
     emit deviceChanged();
 }
 
