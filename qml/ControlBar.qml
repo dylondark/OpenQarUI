@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import OpenQarUI
 
 Rectangle {
     id: controlBarBase
@@ -92,8 +93,8 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        console.log("Play/Pause button clicked")
-                        // Implement play/pause functionality here
+                        console.log("Previous button clicked")
+                        BluetoothMediaController.previous();
                     }
                 }
             }
@@ -113,16 +114,16 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        if (parent.play) {
-                            parent.play = false;
+                        if (playPauseButton.play) {
+                            playPauseButton.play = false;
                             playPauseButton.source = "qrc:/images/pause.png";
                             console.log("Play button clicked");
-                            // Implement play functionality here
+                            BluetoothMediaController.play();
                         } else {
-                            parent.play = true;
+                            playPauseButton.play = true;
                             playPauseButton.source = "qrc:/images/play.png";
                             console.log("Pause button clicked");
-                            // Implement pause functionality here
+                            BluetoothMediaController.pause();
                         }
                     }
                 }
@@ -141,7 +142,7 @@ Rectangle {
                     anchors.fill: parent
                     onClicked: {
                         console.log("Next button clicked")
-                        // Implement next track functionality here
+                        BluetoothMediaController.next();
                     }
                 }
             }
