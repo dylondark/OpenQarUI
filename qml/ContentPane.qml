@@ -16,7 +16,7 @@ ScrollView {
 
     Column {
         id: column
-        //anchors.fill: parent
+        height: 1
 
         StackView {
             id: stackView
