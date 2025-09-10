@@ -21,6 +21,10 @@ BluetoothMediaController::BluetoothMediaController(QObject *parent)
         emit errorOccurred("Cannot connect to the D-Bus system bus");
         return;
     }
+
+    // set up timer to periodically update status
+    connect(&updateTimer, &QTimer::timeout, this, &BluetoothMediaController::updatePlaybackStatus);
+    updateTimer.start(1000); // update every second
 }
 
 // Playback control methods
@@ -218,4 +222,7 @@ void BluetoothMediaController::updatePlaybackStatus()
     reply = m_mediaInfoInterface->call("Get", "org.bluez.MediaPlayer1", "Status");
     QString status = reply.value().variant().toString();
     m_playing = (status == "playing");
+
+    emit trackChanged();
+    emit positionChanged();
 }

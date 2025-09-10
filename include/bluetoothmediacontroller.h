@@ -9,6 +9,7 @@
 
 #include <QObject>
 #include <QtDBus/QtDBus>
+#include <QTimer>
 
 class BluetoothMediaController : public QObject
 {
@@ -63,6 +64,7 @@ private:
     QString m_album;
     int m_duration;
     int m_position;
+    QTimer updateTimer;
 
     // DBus interface/proxy objects
     QDBusConnection systemBus;
