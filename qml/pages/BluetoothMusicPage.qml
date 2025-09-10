@@ -133,24 +133,16 @@ Page {
                                     id: playPauseButton
                                     Layout.fillHeight: true
                                     Layout.preferredWidth: height
-                                    source: "qrc:/images/play.png"
+                                    source: BluetoothMediaController.playing ? "qrc:/images/pause.png" : "qrc:/images/play.png"
                                     fillMode: Image.PreserveAspectFit
                                     smooth: true
-
-                                    property bool play: true // play or pause?
 
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked: {
-                                            if (parent.play) {
-                                                parent.play = false;
-                                                playPauseButton.source = "qrc:/images/pause.png";
-                                                console.log("Play button clicked");
+                                            if (!BluetoothMediaController.playing) {
                                                 BluetoothMediaController.play();
                                             } else {
-                                                parent.play = true;
-                                                playPauseButton.source = "qrc:/images/play.png";
-                                                console.log("Pause button clicked");
                                                 BluetoothMediaController.pause();
                                             }
                                         }
