@@ -29,7 +29,6 @@ Rectangle {
             MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    console.log("Home button clicked")
                     controlBarBase.goHomeRequested()
                 }
             }
@@ -93,7 +92,6 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        console.log("Previous button clicked")
                         BluetoothMediaController.previous();
                     }
                 }
@@ -135,7 +133,6 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        console.log("Next button clicked")
                         BluetoothMediaController.next();
                     }
                 }
@@ -162,7 +159,6 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        console.log("Volume icon clicked")
                         // Implement volume control functionality here
                     }
                 }
@@ -179,7 +175,6 @@ Rectangle {
                 Layout.rightMargin: 10
 
                 onValueChanged: {
-                    console.log("Volume changed to " + value);
                     // Implement volume change functionality here
                 }
             }

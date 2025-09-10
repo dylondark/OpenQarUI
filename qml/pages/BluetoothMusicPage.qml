@@ -123,7 +123,6 @@ Page {
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked: {
-                                            console.log("Previous button clicked")
                                             BluetoothMediaController.previous();
                                         }
                                     }
@@ -160,7 +159,6 @@ Page {
                                     MouseArea {
                                         anchors.fill: parent
                                         onClicked: {
-                                            console.log("Next button clicked")
                                             BluetoothMediaController.next();
                                         }
                                     }
