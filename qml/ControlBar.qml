@@ -63,7 +63,7 @@ Rectangle {
                 Text {
                     id: songTitle
                     Layout.fillWidth: true
-                    text: "Song Title"
+                    text: BluetoothMediaController.title
                     font.pixelSize: 24
                     verticalAlignment: Text.AlignVBottom
                     horizontalAlignment: Text.AlignLeft
@@ -74,7 +74,7 @@ Rectangle {
                     id: artistName
                     Layout.preferredHeight: 28 // i dont know why this positions it correctly but i guess we'll keep it
                     Layout.fillWidth: true
-                    text: "Artist Name"
+                    text: BluetoothMediaController.artist
                     font.pixelSize: 20
                     verticalAlignment: Text.AlignVTop
                     horizontalAlignment: Text.AlignLeft

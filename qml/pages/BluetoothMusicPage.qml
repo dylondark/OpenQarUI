@@ -74,7 +74,7 @@ Page {
                                 anchors.bottom: trackArtist.top
                                 anchors.left: parent.left
                                 anchors.right: parent.right
-                                text: "Title"
+                                text: BluetoothMediaController.title
                                 font.pointSize: 24
                                 font.bold: true
                                 horizontalAlignment: Text.AlignHCenter
@@ -85,7 +85,7 @@ Page {
                                 anchors.bottom: trackAlbum.top
                                 anchors.left: parent.left
                                 anchors.right: parent.right
-                                text: "Artist"
+                                text: BluetoothMediaController.artist
                                 font.pointSize: 24
                                 horizontalAlignment: Text.AlignHCenter
                             }
@@ -95,7 +95,7 @@ Page {
                                 anchors.bottom: parent.bottom
                                 anchors.left: parent.left
                                 anchors.right: parent.right
-                                text: "Album"
+                                text: BluetoothMediaController.album
                                 font.pointSize: 24
                                 font.italic: true
                                 horizontalAlignment: Text.AlignHCenter
