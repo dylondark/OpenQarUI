@@ -122,8 +122,9 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
 
     const QString service = "org.bluez";
     const QString path = "/org/bluez/hci0/dev_" + m_deviceAddress.replace(":", "_") + "/avrcp/player0";
-    const QString interface = "org.bluez.MediaPlayer1";
+    QString interface = "org.bluez.MediaPlayer1";
 
+    // media player interface
     m_mediaPlayerInterface = new QDBusInterface(service, path, interface, systemBus, this);
     if (!m_mediaPlayerInterface->isValid())
     {
@@ -132,7 +133,19 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
         return;
     }
 
+    // media info interface
+    interface = "org.freedesktop.DBus.Properties";
+    m_mediaInfoInterface = new QDBusInterface(service, path, interface, systemBus, this);
+    if (!m_mediaInfoInterface->isValid())
+    {
+        std::cerr << "Failed to create D-Bus properties interface for device" << std::endl;
+        emit errorOccurred("Failed to create D-Bus properties interface for device");
+        return;
+    }
+
     emit deviceChanged();
+
+    updatePlaybackStatus();
 }
 
 void BluetoothMediaController::disconnectDevice()
@@ -179,4 +192,30 @@ int BluetoothMediaController::position() const
 QString BluetoothMediaController::deviceName() const
 {
     return m_deviceAddress; // TODO: replace with friendly name if available
+}
+
+void BluetoothMediaController::updatePlaybackStatus()
+{
+    if (m_mediaInfoInterface == nullptr)
+        return;
+
+    // track information
+    QDBusReply<QDBusVariant> reply = m_mediaInfoInterface->call("Get", "org.bluez.MediaPlayer1", "Track");
+    QVariant var = reply.value().variant();
+    QDBusArgument arg = var.value<QDBusArgument>();
+    QVariantMap map = qdbus_cast<QVariantMap>(arg);
+
+    m_title = map.value("Title").toString();
+    m_artist = map.value("Artist").toString();
+    m_album = map.value("Album").toString();
+    m_duration = map.value("Duration").toInt(); // in ms
+
+    // track position
+    reply = m_mediaInfoInterface->call("Get", "org.bluez.MediaPlayer1", "Position");
+    m_position = reply.value().variant().toInt(); // in ms
+
+    // playback status
+    reply = m_mediaInfoInterface->call("Get", "org.bluez.MediaPlayer1", "Status");
+    QString status = reply.value().variant().toString();
+    m_playing = (status == "playing");
 }
