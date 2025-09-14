@@ -5,6 +5,7 @@ project(OpenQarUI VERSION 0.1 LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Quick Core)
+find_package(Qt6 REQUIRED COMPONENTS Core)
 
 qt_standard_project_setup(REQUIRES 6.8)
 
@@ -56,6 +57,7 @@ target_link_libraries(appOpenQarUI
     PRIVATE Qt6::Core
     PRIVATE Qt6::DBus
 )
+target_link_libraries(appOpenQarUI PRIVATE Qt6::Core)
 
 # Install rules
 include(GNUInstallDirs)
