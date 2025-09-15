@@ -8,6 +8,7 @@
 #define LASTFMAPIHANDLER_H
 
 #include <QObject>
+#include <QMap>
 
 class LastFMAPIHandler : public QObject
 {
@@ -16,6 +17,9 @@ public:
     explicit LastFMAPIHandler(QObject *parent = nullptr);
 
 signals:
+
+private:
+    QString callAPI(QString method, QString user, QMap<QString, QString> params);
 };
 
 #endif // LASTFMAPIHANDLER_H
