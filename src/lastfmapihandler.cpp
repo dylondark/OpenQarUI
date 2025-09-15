@@ -19,3 +19,8 @@ QString LastFMAPIHandler::callAPI(QString method, QString user, QMap<QString, QS
     Q_UNUSED(params);
     return QString();
 }
+
+QString LastFMAPIHandler::getTrackCoverArt(QString track, QString artist)
+{
+    return callAPI("track.getInfo", "", {{"track", track}, {"artist", artist}});
+}
