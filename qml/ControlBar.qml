@@ -46,7 +46,7 @@ Rectangle {
                 id: albumImage
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
-                source: "https://lastfm.freetls.fastly.net/i/u/300x300/dd45b0438a315aed98b5830aa2fc43c5.jpg"
+                source: BluetoothMediaController.coverURL
                 Layout.topMargin: 10
                 Layout.bottomMargin: 10
                 smooth: true

@@ -47,7 +47,7 @@ Page {
                     Image {
                         id: fullAlbumArt
                         anchors.centerIn: parent
-                        source: "https://lastfm.freetls.fastly.net/i/u/300x300/dd45b0438a315aed98b5830aa2fc43c5.jpg"
+                        source: BluetoothMediaController.coverURL
                         width: parent.width / 1.5
                         height: width
                     }
