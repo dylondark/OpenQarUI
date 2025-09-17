@@ -28,7 +28,7 @@ void LastFMAPIHandler::setAPIKey()
     apiKey = settings.value("API/LastFMKey", "default-value").toString();
 
     QString response = callAPI("track.getInfo", "", {{"track", "Duvet"}, {"artist", "Boa"}, {"autocorrect", "1"}});
-    if (response.contains("invalid"))
+    if (response.contains("Invalid API key"))
     {
         apiKey = "invalid";
         qWarning() << "Provided LastFM API key is invalid";
