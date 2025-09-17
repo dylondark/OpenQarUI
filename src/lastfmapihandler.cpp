@@ -65,6 +65,10 @@ QString LastFMAPIHandler::callAPI(QString method, QString user, QMap<QString, QS
 
 QString LastFMAPIHandler::getTrackCoverArt(QString track, QString artist)
 {
+    // cut off everything in artist after first comma
+    if (artist.contains(","))
+        artist = artist.section(',', 0, 0).trimmed();
+
     QString jsonString = callAPI("track.getInfo", "", {{"track", track}, {"artist", artist}, {"autocorrect", "1"}});
 
     // Parse the JSON response
