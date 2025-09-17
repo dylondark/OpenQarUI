@@ -17,7 +17,7 @@ class LastFMAPIHandler : public QObject
 public:
     explicit LastFMAPIHandler(QObject *parent = nullptr);
 
-    QString getTrackCoverArt(QString track, QString artist);
+    QString getTrackCoverArt(QString track, QString artist, QString album);
 
 signals:
 

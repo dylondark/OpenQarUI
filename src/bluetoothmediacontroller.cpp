@@ -235,7 +235,7 @@ void BluetoothMediaController::updatePlaybackStatus()
         emit trackChanged();
         emit positionChanged();
 
-        m_coverURL = lfm.getTrackCoverArt(m_title, m_artist);
+        m_coverURL = lfm.getTrackCoverArt(m_title, m_artist, m_album);
         qDebug() << "Cover URL:" << m_coverURL;
         emit coverArtRetrieved();
     });

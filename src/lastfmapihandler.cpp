@@ -63,13 +63,17 @@ QString LastFMAPIHandler::callAPI(QString method, QString user, QMap<QString, QS
     return reply->readAll();
 }
 
-QString LastFMAPIHandler::getTrackCoverArt(QString track, QString artist)
+QString LastFMAPIHandler::getTrackCoverArt(QString track, QString artist, QString album = "")
 {
     // cut off everything in artist after first comma
     if (artist.contains(","))
         artist = artist.section(',', 0, 0).trimmed();
 
-    QString jsonString = callAPI("track.getInfo", "", {{"track", track}, {"artist", artist}, {"autocorrect", "1"}});
+    QString jsonString;
+    if (album.isEmpty()) // if no album use track
+        jsonString = callAPI("track.getInfo", "", {{"track", track}, {"artist", artist}, {"autocorrect", "1"}});
+    else
+        jsonString = callAPI("album.getInfo", "", {{"album", album}, {"artist", artist}, {"autocorrect", "1"}});
 
     // Parse the JSON response
     QJsonParseError parseError;
@@ -81,16 +85,25 @@ QString LastFMAPIHandler::getTrackCoverArt(QString track, QString artist)
         return QString();
     }
 
-    QJsonObject trackObj = doc.object().value("track").toObject();
-    QJsonObject albumObj = trackObj.value("album").toObject();
-    QJsonArray images = albumObj.value("image").toArray();
+    QJsonObject root = doc.object();
+    QJsonArray images;
+
+    if (root.contains("track")) {
+        // track.getInfo structure
+        QJsonObject trackObj = root.value("track").toObject();
+        QJsonObject albumObj = trackObj.value("album").toObject();
+        images = albumObj.value("image").toArray();
+    }
+    else if (root.contains("album")) {
+        // album.getInfo structure
+        QJsonObject albumObj = root.value("album").toObject();
+        images = albumObj.value("image").toArray();
+    }
 
     // Get the largest image (last one in array)
-    if (!images.isEmpty())
-    {
+    if (!images.isEmpty()) {
         QJsonObject lastImage = images.last().toObject();
-        QString coverUrl = lastImage.value("#text").toString();
-        return coverUrl;
+        return lastImage.value("#text").toString();
     }
 
     // No cover art found
