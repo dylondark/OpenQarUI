@@ -236,7 +236,11 @@ void BluetoothMediaController::updatePlaybackStatus()
         emit positionChanged();
 
         m_coverURL = lfm.getTrackCoverArt(m_title, m_artist, m_album);
-        qDebug() << "Cover URL:" << m_coverURL;
+
+        // return placeholder image if no valid URL retrieved
+        if (!m_coverURL.contains("https://"))
+            m_coverURL = "qrc:/images/placeholder.png";
+
         emit coverArtRetrieved();
     });
 }
