@@ -25,6 +25,9 @@ BluetoothMediaController::BluetoothMediaController(QObject *parent)
     // set up timer to periodically update status
     connect(&updateTimer, &QTimer::timeout, this, &BluetoothMediaController::updatePlaybackStatus);
     updateTimer.start(1000); // update every second
+
+    threadWorker.moveToThread(&networkThread);
+    networkThread.start();
 }
 
 // Playback control methods
@@ -183,6 +186,11 @@ QString BluetoothMediaController::album() const
     return m_album;
 }
 
+QString BluetoothMediaController::coverURL()
+{
+    return m_coverURL;
+}
+
 int BluetoothMediaController::duration() const
 {
     return m_duration;
@@ -203,26 +211,32 @@ void BluetoothMediaController::updatePlaybackStatus()
     if (m_mediaInfoInterface == nullptr)
         return;
 
-    // track information
-    QDBusReply<QDBusVariant> reply = m_mediaInfoInterface->call("Get", "org.bluez.MediaPlayer1", "Track");
-    QVariant var = reply.value().variant();
-    QDBusArgument arg = var.value<QDBusArgument>();
-    QVariantMap map = qdbus_cast<QVariantMap>(arg);
+    QMetaObject::invokeMethod(&threadWorker, [=]() {
+        // track information
+        QDBusReply<QDBusVariant> reply = m_mediaInfoInterface->call("Get", "org.bluez.MediaPlayer1", "Track");
+        QVariant var = reply.value().variant();
+        QDBusArgument arg = var.value<QDBusArgument>();
+        QVariantMap map = qdbus_cast<QVariantMap>(arg);
 
-    m_title = map.value("Title").toString();
-    m_artist = map.value("Artist").toString();
-    m_album = map.value("Album").toString();
-    m_duration = map.value("Duration").toInt(); // in ms
+        m_title = map.value("Title").toString();
+        m_artist = map.value("Artist").toString();
+        m_album = map.value("Album").toString();
+        m_duration = map.value("Duration").toInt(); // in ms
 
-    // track position
-    reply = m_mediaInfoInterface->call("Get", "org.bluez.MediaPlayer1", "Position");
-    m_position = reply.value().variant().toInt(); // in ms
+        // track position
+        reply = m_mediaInfoInterface->call("Get", "org.bluez.MediaPlayer1", "Position");
+        m_position = reply.value().variant().toInt(); // in ms
 
-    // playback status
-    reply = m_mediaInfoInterface->call("Get", "org.bluez.MediaPlayer1", "Status");
-    QString status = reply.value().variant().toString();
-    m_playing = (status == "playing");
+        // playback status
+        reply = m_mediaInfoInterface->call("Get", "org.bluez.MediaPlayer1", "Status");
+        QString status = reply.value().variant().toString();
+        m_playing = (status == "playing");
 
-    emit trackChanged();
-    emit positionChanged();
+        emit trackChanged();
+        emit positionChanged();
+
+        m_coverURL = lfm.getTrackCoverArt(m_title, m_artist);
+        qDebug() << "Cover URL:" << m_coverURL;
+        emit coverArtRetrieved();
+    });
 }

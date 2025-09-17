@@ -10,6 +10,8 @@
 #include <QObject>
 #include <QtDBus/QtDBus>
 #include <QTimer>
+#include "threadworker.h"
+#include "lastfmapihandler.h"
 
 class BluetoothMediaController : public QObject
 {
@@ -23,6 +25,7 @@ public:
     Q_PROPERTY(int duration READ duration NOTIFY trackChanged) // in ms
     Q_PROPERTY(int position READ position NOTIFY positionChanged) // in ms
     Q_PROPERTY(QString deviceName READ deviceName NOTIFY deviceChanged)
+    Q_PROPERTY(QString coverURL READ coverURL NOTIFY coverArtRetrieved)
 
     // ctor
     explicit BluetoothMediaController(QObject *parent = nullptr);
@@ -44,6 +47,7 @@ public:
     QString title() const;
     QString artist() const;
     QString album() const;
+    QString coverURL();
     int duration() const;
     int position() const;
     QString deviceName() const;
@@ -54,6 +58,7 @@ signals:
     void positionChanged();
     void deviceChanged();
     void errorOccurred(const QString &message);
+    void coverArtRetrieved();
 
 private:
     QString m_deviceAddress;
@@ -62,9 +67,13 @@ private:
     QString m_title;
     QString m_artist;
     QString m_album;
+    QString m_coverURL;
     int m_duration;
     int m_position;
     QTimer updateTimer;
+    ThreadWorker threadWorker;
+    QThread networkThread;
+    LastFMAPIHandler lfm;
 
     // DBus interface/proxy objects
     QDBusConnection systemBus;
