@@ -16,13 +16,14 @@ class LastFMAPIHandler : public QObject
     Q_OBJECT
 public:
     explicit LastFMAPIHandler(QObject *parent = nullptr);
-
+    void setAPIKey();
     QString getTrackCoverArt(QString track, QString artist, QString album);
 
 signals:
 
 private:
     QNetworkAccessManager *m_manager;
+    QString apiKey;
 
     QString callAPI(QString method, QString user, QMap<QString, QString> params);
 };

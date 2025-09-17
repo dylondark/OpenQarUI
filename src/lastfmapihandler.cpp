@@ -17,7 +17,23 @@
 LastFMAPIHandler::LastFMAPIHandler(QObject *parent)
     : QObject{parent},
     m_manager(new QNetworkAccessManager(this))
-{}
+{
+    setAPIKey();
+}
+
+void LastFMAPIHandler::setAPIKey()
+{
+    // set the api key from settings
+    QSettings settings("config.ini", QSettings::IniFormat);
+    apiKey = settings.value("API/LastFMKey", "default-value").toString();
+
+    QString response = callAPI("track.getInfo", "", {{"track", "Duvet"}, {"artist", "Boa"}, {"autocorrect", "1"}});
+    if (response.contains("invalid"))
+    {
+        apiKey = "invalid";
+        qWarning() << "Provided LastFM API key is invalid";
+    }
+}
 
 QString LastFMAPIHandler::callAPI(QString method, QString user, QMap<QString, QString> params)
 {
@@ -32,8 +48,6 @@ QString LastFMAPIHandler::callAPI(QString method, QString user, QMap<QString, QS
     query.addQueryItem("format", "json");
 
     // api key
-    QSettings settings("config.ini", QSettings::IniFormat);
-    QString apiKey = settings.value("API/LastFMKey", "default-value").toString();
     query.addQueryItem("api_key", apiKey);
 
     // Add user‑specific params (if any)
