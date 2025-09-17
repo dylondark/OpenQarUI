@@ -9,6 +9,7 @@
 
 #include <QObject>
 #include <QMap>
+#include <QNetworkAccessManager>
 
 class LastFMAPIHandler : public QObject
 {
@@ -21,6 +22,8 @@ public:
 signals:
 
 private:
+    QNetworkAccessManager *m_manager;
+
     QString callAPI(QString method, QString user, QMap<QString, QString> params);
 };
 
