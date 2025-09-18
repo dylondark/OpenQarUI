@@ -12,7 +12,9 @@ BluetoothMediaController::BluetoothMediaController(QObject *parent)
     m_playing(false),
     m_duration(0),
     m_position(0),
-    systemBus(QDBusConnection::systemBus())
+    systemBus(QDBusConnection::systemBus()),
+    m_mediaPlayerInterface(nullptr),
+    m_mediaInfoInterface(nullptr)
 {
     // init system dbus connection
     if (!systemBus.isConnected())
@@ -21,6 +23,9 @@ BluetoothMediaController::BluetoothMediaController(QObject *parent)
         emit errorOccurred("Cannot connect to the D-Bus system bus");
         return;
     }
+
+    // this sets all values to default for non connected
+    disconnectDevice();
 
     // set up timer to periodically update status
     connect(&updateTimer, &QTimer::timeout, this, &BluetoothMediaController::updatePlaybackStatus);
@@ -175,8 +180,21 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
 
 void BluetoothMediaController::disconnectDevice()
 {
-    std::cout << "Disconnect device" << std::endl;
-    // TODO: Clear DBus interface and reset state
+
+    if (m_mediaPlayerInterface != nullptr)
+        delete m_mediaPlayerInterface;
+    m_mediaPlayerInterface = nullptr;
+    if (m_mediaInfoInterface != nullptr)
+        delete m_mediaInfoInterface;
+    m_mediaInfoInterface = nullptr;
+
+    // reset all properties to state for non connected device
+    m_title.clear();
+    m_artist.clear();
+    m_album.clear();
+    m_coverURL.clear();
+    m_duration = 0;
+    m_position = 0;
     m_deviceAddress.clear();
     m_playing = false;
     m_connected = false;
