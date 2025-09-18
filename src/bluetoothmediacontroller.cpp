@@ -30,6 +30,17 @@ BluetoothMediaController::BluetoothMediaController(QObject *parent)
     networkThread.start();
 }
 
+BluetoothMediaController::~BluetoothMediaController()
+{
+    networkThread.quit();
+    networkThread.wait();
+
+    delete m_mediaPlayerInterface;
+    delete m_mediaInfoInterface;
+
+    updateTimer.stop();
+}
+
 // Playback control methods
 void BluetoothMediaController::play()
 {

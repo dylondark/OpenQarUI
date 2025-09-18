@@ -30,6 +30,9 @@ public:
     // ctor
     explicit BluetoothMediaController(QObject *parent = nullptr);
 
+    // dtor
+    ~BluetoothMediaController();
+
     // Playback controls
     Q_INVOKABLE void play();
     Q_INVOKABLE void pause();
