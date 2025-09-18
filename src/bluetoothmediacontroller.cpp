@@ -31,6 +31,8 @@ BluetoothMediaController::BluetoothMediaController(QObject *parent)
     connect(&updateTimer, &QTimer::timeout, this, &BluetoothMediaController::updatePlaybackStatus);
     updateTimer.start(1000); // update every second
 
+    connect(this, &BluetoothMediaController::errorOccurred, this, &BluetoothMediaController::internalErrorHandle);
+
     threadWorker.moveToThread(&networkThread);
     networkThread.start();
 }
@@ -64,7 +66,7 @@ void BluetoothMediaController::play()
     }
     else
     {
-        std::cerr << "Error: " << reply.error().message().toStdString() << std::endl;
+        emit errorOccurred(reply.error().message());
     }
 }
 
@@ -80,7 +82,7 @@ void BluetoothMediaController::pause()
     }
     else
     {
-        std::cerr << "Error: " << reply.error().message().toStdString() << std::endl;
+        emit errorOccurred(reply.error().message());
     }
 }
 
@@ -96,7 +98,7 @@ void BluetoothMediaController::stop()
     }
     else
     {
-        std::cerr << "Error: " << reply.error().message().toStdString() << std::endl;
+        emit errorOccurred(reply.error().message());
     }
 }
 
@@ -113,7 +115,7 @@ void BluetoothMediaController::next()
     }
     else
     {
-        std::cerr << "Error: " << reply.error().message().toStdString() << std::endl;
+        emit errorOccurred(reply.error().message());
     }
 }
 
@@ -130,7 +132,7 @@ void BluetoothMediaController::previous()
     }
     else
     {
-        std::cerr << "Error: " << reply.error().message().toStdString() << std::endl;
+        emit errorOccurred(reply.error().message());
     }
 }
 
@@ -156,7 +158,6 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
     m_mediaPlayerInterface = new QDBusInterface(service, path, interface, systemBus, this);
     if (!m_mediaPlayerInterface->isValid())
     {
-        std::cerr << "Failed to create D-Bus interface for device" << std::endl;
         emit errorOccurred("Failed to create D-Bus interface for device");
         return;
     }
@@ -166,7 +167,6 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
     m_mediaInfoInterface = new QDBusInterface(service, path, interface, systemBus, this);
     if (!m_mediaInfoInterface->isValid())
     {
-        std::cerr << "Failed to create D-Bus properties interface for device" << std::endl;
         emit errorOccurred("Failed to create D-Bus properties interface for device");
         return;
     }
@@ -280,4 +280,10 @@ void BluetoothMediaController::updatePlaybackStatus()
 
         emit coverArtRetrieved();
     });
+}
+
+void BluetoothMediaController::internalErrorHandle(const QString& message)
+{
+    std::cerr << "BluetoothMediaController error: " << message.toStdString() << std::endl;
+    disconnectDevice();
 }

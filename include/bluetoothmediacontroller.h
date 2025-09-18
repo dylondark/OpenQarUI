@@ -89,6 +89,7 @@ private:
     void updatePlaybackStatus();
     void updateTrackInfo();
     void handleDbusSignal(...); // callback for DBus properties change
+    void internalErrorHandle(const QString& message);
 
 };
 
