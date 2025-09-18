@@ -41,6 +41,11 @@ BluetoothMediaController::~BluetoothMediaController()
     updateTimer.stop();
 }
 
+bool BluetoothMediaController::isConnected() const
+{
+    return m_connected;
+}
+
 // Playback control methods
 void BluetoothMediaController::play()
 {
@@ -161,6 +166,8 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
         return;
     }
 
+    m_connected = true;
+
     emit deviceChanged();
 
     updatePlaybackStatus();
@@ -172,6 +179,7 @@ void BluetoothMediaController::disconnectDevice()
     // TODO: Clear DBus interface and reset state
     m_deviceAddress.clear();
     m_playing = false;
+    m_connected = false;
     emit deviceChanged();
     emit playingChanged();
 }

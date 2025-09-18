@@ -18,6 +18,7 @@ class BluetoothMediaController : public QObject
     Q_OBJECT
 
 public:
+    Q_PROPERTY(bool connected READ isConnected NOTIFY deviceChanged)
     Q_PROPERTY(bool playing READ isPlaying NOTIFY playingChanged)
     Q_PROPERTY(QString title READ title NOTIFY trackChanged)
     Q_PROPERTY(QString artist READ artist NOTIFY trackChanged)
@@ -46,6 +47,7 @@ public:
     Q_INVOKABLE void disconnectDevice();
 
     // Status queries (if needed from C++, mostly properties are enough)
+    bool isConnected() const;
     bool isPlaying() const;
     QString title() const;
     QString artist() const;
@@ -64,6 +66,7 @@ signals:
     void coverArtRetrieved();
 
 private:
+    bool m_connected;
     QString m_deviceAddress;
     QString m_deviceName;
     bool m_playing;
