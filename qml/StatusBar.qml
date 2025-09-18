@@ -103,7 +103,7 @@ Rectangle {
                     id: phoneText
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
-                    text: "No phone connected"
+                    text: BluetoothMediaController.deviceName
                     font.pixelSize: 20
                     font.bold: false
                 }

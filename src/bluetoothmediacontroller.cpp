@@ -14,7 +14,8 @@ BluetoothMediaController::BluetoothMediaController(QObject *parent)
     m_position(0),
     systemBus(QDBusConnection::systemBus()),
     m_mediaPlayerInterface(nullptr),
-    m_mediaInfoInterface(nullptr)
+    m_mediaInfoInterface(nullptr),
+    m_deviceInterface(nullptr)
 {
     // init system dbus connection
     if (!systemBus.isConnected())
@@ -151,7 +152,7 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
     m_deviceAddress = deviceAddress;
 
     const QString service = "org.bluez";
-    const QString path = "/org/bluez/hci0/dev_" + m_deviceAddress.replace(":", "_") + "/avrcp/player0";
+    QString path = "/org/bluez/hci0/dev_" + m_deviceAddress.replace(":", "_") + "/avrcp/player0";
     QString interface = "org.bluez.MediaPlayer1";
 
     // media player interface
@@ -171,6 +172,19 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
         return;
     }
 
+    // device interface
+    path = "/org/bluez/hci0/dev_" + m_deviceAddress.replace(":", "_");
+    m_deviceInterface = new QDBusInterface(service, path, interface, systemBus, this);
+    if (!m_deviceInterface->isValid())
+    {
+        emit errorOccurred("Failed to create D-Bus device interface for device");
+        return;
+    }
+
+    // get device name
+    QDBusReply<QDBusVariant> reply = m_deviceInterface->call("Get", "org.bluez.Device1", "Name");
+    m_deviceName = reply.value().variant().toString();
+
     m_connected = true;
 
     emit deviceChanged();
@@ -180,13 +194,14 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
 
 void BluetoothMediaController::disconnectDevice()
 {
-
     if (m_mediaPlayerInterface != nullptr)
         delete m_mediaPlayerInterface;
     m_mediaPlayerInterface = nullptr;
     if (m_mediaInfoInterface != nullptr)
         delete m_mediaInfoInterface;
     m_mediaInfoInterface = nullptr;
+    if (m_deviceInterface != nullptr)
+        delete m_deviceInterface;
 
     // reset all properties to state for non connected device
     m_title.clear();
@@ -240,7 +255,7 @@ int BluetoothMediaController::position() const
 
 QString BluetoothMediaController::deviceName() const
 {
-    return m_deviceAddress; // TODO: replace with friendly name if available
+    return m_deviceName;
 }
 
 void BluetoothMediaController::updatePlaybackStatus()

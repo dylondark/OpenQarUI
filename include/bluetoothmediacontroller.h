@@ -85,6 +85,7 @@ private:
     QDBusConnection systemBus;
     QDBusInterface* m_mediaPlayerInterface;
     QDBusInterface* m_mediaInfoInterface;
+    QDBusInterface* m_deviceInterface;
 
     void updatePlaybackStatus();
     void updateTrackInfo();
