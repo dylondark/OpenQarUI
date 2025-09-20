@@ -181,8 +181,16 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
         return;
     }
 
+    // test device connection
+    QDBusReply<QDBusVariant> reply = m_deviceInterface->call("Get", "org.bluez.Device1", "Connected");
+    if (!reply.isValid() || !reply.value().variant().toBool())
+    {
+        emit errorOccurred("Unable to establish connection with device " + deviceAddress);
+        return;
+    }
+
     // get device name
-    QDBusReply<QDBusVariant> reply = m_deviceInterface->call("Get", "org.bluez.Device1", "Name");
+    reply = m_deviceInterface->call("Get", "org.bluez.Device1", "Name");
     m_deviceName = reply.value().variant().toString();
 
     m_connected = true;
