@@ -46,7 +46,7 @@ Rectangle {
                 id: albumImage
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
-                source: BluetoothMediaController.coverURL
+                source: BluetoothMediaController.connected ? BluetoothMediaController.coverURL : "qrc:/images/placeholder.png"
                 Layout.topMargin: 10
                 Layout.bottomMargin: 10
                 smooth: true
@@ -62,7 +62,7 @@ Rectangle {
                 Text {
                     id: songTitle
                     Layout.fillWidth: true
-                    text: BluetoothMediaController.title
+                    text: BluetoothMediaController.connected ? BluetoothMediaController.title : "No BT device connected"
                     font.pixelSize: 24
                     verticalAlignment: Text.AlignVBottom
                     horizontalAlignment: Text.AlignLeft

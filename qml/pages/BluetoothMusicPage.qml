@@ -47,7 +47,7 @@ Page {
                     Image {
                         id: fullAlbumArt
                         anchors.centerIn: parent
-                        source: BluetoothMediaController.coverURL
+                        source: BluetoothMediaController.connected ? BluetoothMediaController.coverURL : "qrc:/images/placeholder.png"
                         width: parent.width / 1.5
                         height: width
                     }
@@ -74,7 +74,7 @@ Page {
                                 anchors.bottom: trackArtist.top
                                 anchors.left: parent.left
                                 anchors.right: parent.right
-                                text: BluetoothMediaController.title
+                                text: BluetoothMediaController.connected ? BluetoothMediaController.title : "No BT device connected"
                                 font.pointSize: 24
                                 font.bold: true
                                 horizontalAlignment: Text.AlignHCenter
