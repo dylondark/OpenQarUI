@@ -292,6 +292,12 @@ void BluetoothMediaController::updatePlaybackStatus()
     QMetaObject::invokeMethod(&threadWorker, [=]() {
         // track information
         QDBusReply<QDBusVariant> reply = m_mediaInfoInterface->call("Get", "org.bluez.MediaPlayer1", "Track");
+        // check for error in reply
+        if (!reply.isValid())
+        {
+            emit errorOccurred(reply.error().message());
+            return;
+        }
         QVariant var = reply.value().variant();
         QDBusArgument arg = var.value<QDBusArgument>();
         QVariantMap map = qdbus_cast<QVariantMap>(arg);
@@ -303,10 +309,20 @@ void BluetoothMediaController::updatePlaybackStatus()
 
         // track position
         reply = m_mediaInfoInterface->call("Get", "org.bluez.MediaPlayer1", "Position");
+        if (!reply.isValid())
+        {
+            emit errorOccurred(reply.error().message());
+            return;
+        }
         m_position = reply.value().variant().toInt(); // in ms
 
         // playback status
         reply = m_mediaInfoInterface->call("Get", "org.bluez.MediaPlayer1", "Status");
+        if (!reply.isValid())
+        {
+            emit errorOccurred(reply.error().message());
+            return;
+        }
         QString status = reply.value().variant().toString();
         m_playing = (status == "playing");
 
