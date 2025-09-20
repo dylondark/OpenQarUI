@@ -117,6 +117,7 @@ Rectangle {
                 source: "qrc:/images/signalbars-placeholder.png"
                 fillMode: Image.PreserveAspectFit
                 smooth: true
+                visible: false // maybe implement this someday
             }
 
             Image {
