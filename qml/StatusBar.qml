@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.VectorImage
 
 Rectangle {
     id: statusBarBase
@@ -120,13 +121,14 @@ Rectangle {
                 visible: false // maybe implement this someday
             }
 
-            Image {
+            VectorImage {
                 id: batteryIcon
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
-                source: "qrc:/images/battery-placeholder.png"
-                fillMode: Image.PreserveAspectFit
-                smooth: true
+                source: "qrc:/images/battery/light/" + Math.round(BluetoothMediaController.batteryLevel / 12.5) + ".svg"
+                fillMode: VectorImage.PreserveAspectFit
+                preferredRendererType: VectorImage.CurveRenderer
+                visible: (BluetoothMediaController.batteryLevel != -1)
             }
 
             Item {

@@ -15,5 +15,21 @@
         <file>images/settings.png</file>
         <file>images/file.png</file>
         <file>images/bluetooth.png</file>
+        <file>images/battery/dark/0.svg</file>
+        <file>images/battery/dark/1.svg</file>
+        <file>images/battery/dark/2.svg</file>
+        <file>images/battery/dark/3.svg</file>
+        <file>images/battery/dark/4.svg</file>
+        <file>images/battery/dark/5.svg</file>
+        <file>images/battery/dark/6.svg</file>
+        <file>images/battery/dark/7.svg</file>
+        <file>images/battery/light/0.svg</file>
+        <file>images/battery/light/1.svg</file>
+        <file>images/battery/light/2.svg</file>
+        <file>images/battery/light/3.svg</file>
+        <file>images/battery/light/4.svg</file>
+        <file>images/battery/light/5.svg</file>
+        <file>images/battery/light/6.svg</file>
+        <file>images/battery/light/7.svg</file>
     </qresource>
 </RCC>
