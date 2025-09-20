@@ -11,27 +11,29 @@ GridLayout {
     rowSpacing: 10
 
     MenuButton {
-        id: musicButton
-        titleText: "Music"
-        iconSource: "qrc:/images/music.png"
+        id: bluetoothDeviceButton
+        titleText: "Bluetooth Device"
+        iconSource: "qrc:/images/bluetooth.png"
 
         MouseArea {
             anchors.fill: parent
+
             onClicked: {
-                stackView.push(musicMenuComponent)
+                stackView.push(settingsPageComponent)
             }
         }
     }
 
     MenuButton {
-        id: settingsButton
-        titleText: "Settings"
-        iconSource: "qrc:/images/settings.png"
+        id: localButton
+        titleText: "Audio"
+        iconSource: "qrc:/images/volume.png"
 
         MouseArea {
             anchors.fill: parent
+
             onClicked: {
-                stackView.push(settingsMenuComponent)
+                stackView.push(settingsPageComponent)
             }
         }
     }

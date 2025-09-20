@@ -54,6 +54,17 @@ ScrollView {
                 }
             }
 
+            Component {
+                id: settingsMenuComponent
+
+                Pages.SettingsMenu {
+                    id: settingsMenu
+                    anchors.left: stackView.left
+                    anchors.right: stackView.right
+                    anchors.margins: 10
+                }
+            }
+
             // Settings page component
             Component {
                 id: settingsPageComponent
