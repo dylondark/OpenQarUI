@@ -110,6 +110,15 @@ Rectangle {
                 }
             }
 
+            VectorImage {
+                id: bluetoothIcon
+                Layout.fillHeight: true
+                Layout.preferredWidth: height
+                source: BluetoothMediaController.connected ? "qrc:/images/bluetooth/light/enabled.svg" : "qrc:/images/bluetooth/light/disabled.svg"
+                fillMode: VectorImage.PreserveAspectFit
+                preferredRendererType: VectorImage.CurveRenderer
+            }
+
             Image {
                 id: signalBarsIcon
                 Layout.fillHeight: true

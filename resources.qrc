@@ -31,5 +31,11 @@
         <file>images/battery/light/5.svg</file>
         <file>images/battery/light/6.svg</file>
         <file>images/battery/light/7.svg</file>
+        <file>images/bluetooth/dark/connected.svg</file>
+        <file>images/bluetooth/dark/disabled.svg</file>
+        <file>images/bluetooth/dark/enabled.svg</file>
+        <file>images/bluetooth/light/connected.svg</file>
+        <file>images/bluetooth/light/disabled.svg</file>
+        <file>images/bluetooth/light/enabled.svg</file>
     </qresource>
 </RCC>
