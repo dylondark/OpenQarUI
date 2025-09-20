@@ -57,6 +57,9 @@ bool BluetoothMediaController::isConnected() const
 // Playback control methods
 void BluetoothMediaController::play()
 {
+    if (!m_connected)
+        return;
+
     QDBusReply<void> reply = m_mediaPlayerInterface->call("Play");
 
     if (reply.isValid())
@@ -73,6 +76,9 @@ void BluetoothMediaController::play()
 
 void BluetoothMediaController::pause()
 {
+    if (!m_connected)
+        return;
+
     QDBusReply<void> reply = m_mediaPlayerInterface->call("Pause");
 
     if (reply.isValid())
@@ -89,6 +95,9 @@ void BluetoothMediaController::pause()
 
 void BluetoothMediaController::stop()
 {
+    if (!m_connected)
+        return;
+
     QDBusReply<void> reply = m_mediaPlayerInterface->call("Stop");
 
     if (reply.isValid())
@@ -105,6 +114,9 @@ void BluetoothMediaController::stop()
 
 void BluetoothMediaController::next()
 {
+    if (!m_connected)
+        return;
+
     QDBusReply<void> reply = m_mediaPlayerInterface->call("Next");
 
     if (reply.isValid())
@@ -122,6 +134,9 @@ void BluetoothMediaController::next()
 
 void BluetoothMediaController::previous()
 {
+    if (!m_connected)
+        return;
+
     QDBusReply<void> reply = m_mediaPlayerInterface->call("Previous");
 
     if (reply.isValid())
@@ -139,6 +154,9 @@ void BluetoothMediaController::previous()
 
 void BluetoothMediaController::seek(int positionMs)
 {
+    if (!m_connected)
+        return;
+
     std::cout << "Seek called to " << positionMs << " ms" << std::endl;
     // TODO: Call Seek() on the DBus MediaPlayer interface
     m_position = positionMs;
