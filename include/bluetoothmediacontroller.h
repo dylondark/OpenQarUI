@@ -27,6 +27,7 @@ public:
     Q_PROPERTY(int position READ position NOTIFY positionChanged) // in ms
     Q_PROPERTY(QString deviceName READ deviceName NOTIFY deviceChanged)
     Q_PROPERTY(QString coverURL READ coverURL NOTIFY coverArtRetrieved)
+    Q_PROPERTY(int batteryLevel READ batteryLevel NOTIFY trackChanged)
 
     // ctor
     explicit BluetoothMediaController(QObject *parent = nullptr);
@@ -56,6 +57,7 @@ public:
     int duration() const;
     int position() const;
     QString deviceName() const;
+    int batteryLevel() const; // in percentage, -1 if unknown
 
 signals:
     void playingChanged();
@@ -76,6 +78,7 @@ private:
     QString m_coverURL;
     int m_duration;
     int m_position;
+    int m_batteryLevel;
     QTimer updateTimer;
     ThreadWorker threadWorker;
     QThread networkThread;

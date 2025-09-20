@@ -207,6 +207,10 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
         return;
     }
 
+    // battery interface (optional)
+    QDBusReply<QDBusVariant> batteryReply = m_deviceInterface->call("Get", "org.bluez.Battery1", "Percentage");
+    m_batteryLevel = batteryReply.isValid() ? batteryReply.value().variant().toInt() : -1;
+
     // get device name
     reply = m_deviceInterface->call("Get", "org.bluez.Device1", "Name");
     m_deviceName = reply.value().variant().toString();
@@ -239,6 +243,8 @@ void BluetoothMediaController::disconnectDevice()
     m_deviceAddress.clear();
     m_playing = false;
     m_connected = false;
+    m_batteryLevel = -1;
+    emit trackChanged();
     emit deviceChanged();
     emit playingChanged();
 }
@@ -284,6 +290,11 @@ QString BluetoothMediaController::deviceName() const
     return m_deviceName;
 }
 
+int BluetoothMediaController::batteryLevel() const
+{
+    return m_batteryLevel;
+}
+
 void BluetoothMediaController::updatePlaybackStatus()
 {
     if (m_mediaInfoInterface == nullptr)
@@ -325,6 +336,10 @@ void BluetoothMediaController::updatePlaybackStatus()
         }
         QString status = reply.value().variant().toString();
         m_playing = (status == "playing");
+
+        // get battery level
+        QDBusReply<QDBusVariant> batteryReply = m_deviceInterface->call("Get", "org.bluez.Battery1", "Percentage");
+        m_batteryLevel = batteryReply.isValid() ? batteryReply.value().variant().toInt() : -1;
 
         emit trackChanged();
         emit positionChanged();

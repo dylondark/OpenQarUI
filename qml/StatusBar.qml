@@ -136,7 +136,7 @@ Rectangle {
                 Text {
                     id: batteryPercentageText
                     anchors.centerIn: parent
-                    text: "100%"
+                    text: (BluetoothMediaController.batteryLevel == -1) ? "" : BluetoothMediaController.batteryLevel + "%"
                     font.pixelSize: 20
                     font.bold: false
                 }
