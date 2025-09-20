@@ -103,7 +103,7 @@ Rectangle {
                     id: phoneText
                     anchors.verticalCenter: parent.verticalCenter
                     anchors.right: parent.right
-                    text: BluetoothMediaController.deviceName
+                    text: BluetoothMediaController.connected ? BluetoothMediaController.deviceName : "No BT device connected"
                     font.pixelSize: 20
                     font.bold: false
                 }
