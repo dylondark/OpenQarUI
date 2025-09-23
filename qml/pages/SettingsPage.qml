@@ -16,95 +16,73 @@ Page {
             Layout.fillWidth: true
             padding: 16
 
-            RowLayout {
+            ColumnLayout {
                 spacing: 20
                 anchors.verticalCenter: parent.verticalCenter
 
                 Label {
-                    text: "Switch"
+                    text: "Bluetooth Device"
                     font.pixelSize: 22
                     Layout.fillWidth: true
+                    color: "black"
                 }
 
-                Switch {
-                    id: darkModeSwitch
-                    checked: false
-                }
-            }
-
-            background: Rectangle {
-                color: Qt.rgba(0, 0.7, 1, 0.5)
-                border.color: "black"
-                border.width: 1
-                radius: 5
-            }
-        }
-
-        Frame {
-            Layout.fillWidth: true
-            padding: 16
-
-            RowLayout {
-                spacing: 12
-
-                Label {
-                    text: "Slider"
-                    font.pixelSize: 22
-                }
-
-                Slider {
-                    id: volumeSlider
-                    from: 0
-                    to: 100
-                    value: 50
-                    stepSize: 1
+                RowLayout {
                     Layout.fillWidth: true
+
+                    ComboBox {
+                        id: deviceComboBox
+                        Layout.fillWidth: true
+                        textRole: "name"
+                        model: deviceModel
+                        currentIndex: -1 // No selection by default
+
+                        ListModel {
+                            id: deviceModel
+                        }
+
+                        function populateDevices() {
+                            // Call the C++ method
+                            let devices = BluetoothMediaController.getPairedDevices();
+
+                            // Convert into JS objects
+                            let list = [];
+                            for (let i = 0; i < devices.length; i++) {
+                                let tuple = devices[i];
+                                list.push({
+                                              address: tuple[0],
+                                              name: tuple[1],
+                                              connected: tuple[2]
+                                          });
+                            }
+
+                            if (list.length === 0) {
+                                // If no devices, insert placeholder
+                                deviceModel.clear();
+                                deviceModel.append({
+                                                       address: "none",
+                                                       name: "No devices found",
+                                                       connected: false
+                                                   });
+                                return;
+                            }
+
+                            // Sort: connected devices first
+                            list.sort(function(a, b) {
+                                if (a.connected === b.connected) return 0;
+                                return a.connected ? -1 : 1;
+                            });
+
+                            // Clear and refill the ListModel
+                            deviceModel.clear();
+                            for (let i = 0; i < list.length; i++) {
+                                deviceModel.append(list[i]);
+                            }
+                        }
+
+                        Component.onCompleted: populateDevices()
+                    }
                 }
-            }
-
-            background: Rectangle {
-                color: Qt.rgba(0, 0.7, 1, 0.5)
-                border.color: "black"
-                border.width: 1
-                radius: 5
-            }
-        }
-
-        Frame {
-            Layout.fillWidth: true
-            padding: 16
-
-            RowLayout {
-                spacing: 12
-
-                Label {
-                    text: "ComboBox"
-                    font.pixelSize: 22
-                }
-
-                ComboBox {
-                    model: ["English", "Spanish", "French", "German"]
-                    currentIndex: 0
-                    Layout.fillWidth: true
-                }
-            }
-
-            background: Rectangle {
-                color: Qt.rgba(0, 0.7, 1, 0.5)
-                border.color: "black"
-                border.width: 1
-                radius: 5
-            }
-        }
-
-        Frame {
-            Layout.fillWidth: true
-            padding: 16
-
-            Button {
-                text: "Button"
-                font.pixelSize: 20
-                Layout.alignment: Qt.AlignHCenter
             }
 
             background: Rectangle {

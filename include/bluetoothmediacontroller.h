@@ -46,6 +46,7 @@ public:
     // Device management
     Q_INVOKABLE void connectToDevice(const QString &deviceAddress);
     Q_INVOKABLE void disconnectDevice();
+    Q_INVOKABLE QVariantList getPairedDevices();
 
     // Status queries (if needed from C++, mostly properties are enough)
     bool isConnected() const;

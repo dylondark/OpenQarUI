@@ -232,6 +232,7 @@ void BluetoothMediaController::disconnectDevice()
     m_mediaInfoInterface = nullptr;
     if (m_deviceInterface != nullptr)
         delete m_deviceInterface;
+    m_deviceInterface = nullptr;
 
     // reset all properties to state for non connected device
     m_title.clear();
@@ -247,6 +248,67 @@ void BluetoothMediaController::disconnectDevice()
     emit trackChanged();
     emit deviceChanged();
     emit playingChanged();
+}
+
+QVariantList BluetoothMediaController::getPairedDevices()
+{
+    QVariantList deviceList;
+
+    QDBusInterface manager("org.bluez", "/", "org.freedesktop.DBus.ObjectManager", systemBus);
+    if (!manager.isValid())
+    {
+        emit errorOccurred("Failed to create D-Bus ObjectManager interface");
+        return deviceList;
+    }
+
+    QDBusMessage msg = manager.call("GetManagedObjects");
+    if (msg.type() == QDBusMessage::ErrorMessage)
+    {
+        emit errorOccurred("Failed to get managed objects from BlueZ: "
+                           + msg.errorMessage());
+        return deviceList;
+    }
+
+    if (msg.arguments().isEmpty())
+    {
+        emit errorOccurred("GetManagedObjects returned no arguments");
+        return deviceList;
+    }
+
+    // Unpack the nested map: a{oa{sa{sv}}}
+    QDBusArgument dbusArg = msg.arguments().at(0).value<QDBusArgument>();
+    QMap<QDBusObjectPath, QMap<QString, QVariantMap>> managedObjects;
+    dbusArg >> managedObjects;
+
+    for (auto it = managedObjects.begin(); it != managedObjects.end(); ++it)
+    {
+        const QMap<QString, QVariantMap> &interfaces = it.value();
+
+        if (!interfaces.contains("org.bluez.Device1"))
+            continue;
+
+        const QVariantMap &deviceProps = interfaces.value("org.bluez.Device1");
+
+        bool paired = deviceProps.value("Paired").toBool();
+        if (!paired)
+            continue; // only list paired devices
+
+        QString address   = deviceProps.value("Address").toString();
+        QString name      = deviceProps.value("Name").toString();
+        bool connected    = deviceProps.value("Connected").toBool();
+
+        QVariantMap deviceInfo;
+        deviceInfo["address"]   = address;
+        deviceInfo["name"]      = name;
+        deviceInfo["connected"] = connected;
+
+        deviceList.append(deviceInfo);
+    }
+
+    if (deviceList.isEmpty())
+        emit errorOccurred("No paired devices found");
+
+    return deviceList;
 }
 
 // Status queries
