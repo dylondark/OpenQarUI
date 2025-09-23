@@ -31,7 +31,7 @@ GridLayout {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                stackView.push(settingsMenuComponent)
+                stackView.push(settingsPageComponent)
             }
         }
     }
