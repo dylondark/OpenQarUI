@@ -250,7 +250,7 @@ void BluetoothMediaController::disconnectDevice()
     emit playingChanged();
 }
 
-QVariantList BluetoothMediaController::getPairedDevices()
+QVariantList BluetoothMediaController::getConnectedDevices()
 {
     QVariantList deviceList;
 
@@ -289,18 +289,15 @@ QVariantList BluetoothMediaController::getPairedDevices()
 
         const QVariantMap &deviceProps = interfaces.value("org.bluez.Device1");
 
-        bool paired = deviceProps.value("Paired").toBool();
-        if (!paired)
-            continue; // only list paired devices
-
         QString address   = deviceProps.value("Address").toString();
         QString name      = deviceProps.value("Name").toString();
         bool connected    = deviceProps.value("Connected").toBool();
+        if (!connected)
+            continue; // only list connected devices
 
         QVariantMap deviceInfo;
         deviceInfo["address"]   = address;
         deviceInfo["name"]      = name;
-        deviceInfo["connected"] = connected;
 
         deviceList.append(deviceInfo);
     }

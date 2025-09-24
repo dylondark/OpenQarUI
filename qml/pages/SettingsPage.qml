@@ -34,7 +34,7 @@ Page {
                         id: deviceComboBox
                         Layout.fillWidth: true
                         textRole: "name"
-                        model: BluetoothMediaController.getPairedDevices()
+                        model: BluetoothMediaController.getConnectedDevices()
                         currentIndex: -1 // No selection by default
 
                         onActivated: {
