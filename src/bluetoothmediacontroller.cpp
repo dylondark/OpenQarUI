@@ -247,6 +247,7 @@ void BluetoothMediaController::disconnectDevice()
     m_playing = false;
     m_connected = false;
     m_batteryLevel = -1;
+    m_deviceName.clear();
     emit trackChanged();
     emit deviceChanged();
     emit playingChanged();
