@@ -47,6 +47,18 @@ Page {
                                 BluetoothMediaController.connectToDevice(mac);
                             }
                         }
+
+                        Component.onCompleted: {
+                            // set the current device if already connected
+                            if (BluetoothMediaController.connected) {
+                                for (let i = 0; i < model.length; i++) {
+                                    if (model[i].name === BluetoothMediaController.deviceName) {
+                                        currentIndex = i;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
