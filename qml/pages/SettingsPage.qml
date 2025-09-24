@@ -36,6 +36,17 @@ Page {
                         textRole: "name"
                         model: BluetoothMediaController.getPairedDevices()
                         currentIndex: -1 // No selection by default
+
+                        onActivated: {
+                            if (currentIndex >= 0) {
+                                let selectedDevice = model[currentIndex];
+                                let mac = selectedDevice.address; // <-- the MAC address
+                                console.log("Selected:", selectedDevice.name, mac);
+
+                                // Call into C++ to connect
+                                BluetoothMediaController.connectToDevice(mac);
+                            }
+                        }
                     }
                 }
             }
