@@ -166,6 +166,8 @@ void BluetoothMediaController::seek(int positionMs)
 // Device management
 void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
 {
+    disconnectDevice();
+
     std::cout << "Connect to device: " << deviceAddress.toStdString() << std::endl;
     m_deviceAddress = deviceAddress;
 
