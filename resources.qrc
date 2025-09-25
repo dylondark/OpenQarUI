@@ -57,5 +57,9 @@
         <file>images/volume/light/1.svg</file>
         <file>images/volume/light/2.svg</file>
         <file>images/volume/light/3.svg</file>
+        <file>images/menu_icons/dark/bluetooth_music.svg</file>
+        <file>images/menu_icons/light/bluetooth_music.svg</file>
+        <file>images/menu_icons/dark/settings.svg</file>
+        <file>images/menu_icons/light/settings.svg</file>
     </qresource>
 </RCC>

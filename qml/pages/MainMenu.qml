@@ -12,8 +12,8 @@ GridLayout {
 
     MenuButton {
         id: musicButton
-        titleText: "Music"
-        iconSource: "qrc:/images/music.png"
+        titleText: "Bluetooth Music"
+        iconSource: "qrc:/images/menu_icons/light/bluetooth_music.svg"
 
         MouseArea {
             anchors.fill: parent
@@ -26,7 +26,7 @@ GridLayout {
     MenuButton {
         id: settingsButton
         titleText: "Settings"
-        iconSource: "qrc:/images/settings.png"
+        iconSource: "qrc:/images/menu_icons/light/settings.svg"
 
         MouseArea {
             anchors.fill: parent

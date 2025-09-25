@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.VectorImage
 
 Rectangle {
     id: baseRect
@@ -38,12 +39,14 @@ Rectangle {
             Layout.fillWidth: true
             Layout.fillHeight: true
 
-            Image {
+            VectorImage {
                 id: icon
-                anchors.fill: parent
+                width: parent.width / 2
+                height: width
+                anchors.centerIn: parent
                 source: baseRect.iconSource
                 fillMode: Image.PreserveAspectFit
-                smooth: true
+                preferredRendererType: VectorImage.CurveRenderer
             }
         }
     }
