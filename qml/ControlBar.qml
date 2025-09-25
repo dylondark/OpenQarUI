@@ -18,14 +18,14 @@ Rectangle {
         anchors.fill: parent
         spacing: 10
 
-        Image {
+        VectorImage {
             id: homeButton
             Layout.fillHeight: true
             Layout.preferredWidth: height
-            source: "qrc:/images/home.png"
+            source: "qrc:/images/home/light/home.svg"
             fillMode: Image.PreserveAspectFit
-            smooth: true
-            Layout.margins: 10
+            preferredRendererType: VectorImage.CurveRenderer
+            Layout.rightMargin: -10
 
             MouseArea {
                 anchors.fill: parent
