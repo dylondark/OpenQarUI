@@ -157,7 +157,7 @@ Rectangle {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        // Implement volume control functionality here
+                        volumeSlider.value = 0
                     }
                 }
             }
