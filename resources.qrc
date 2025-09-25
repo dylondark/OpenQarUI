@@ -1,20 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>images/default-background.png</file>
-        <file>images/default-background-dark.png</file>
-        <file>images/battery-placeholder.png</file>
-        <file>images/signalbars-placeholder.png</file>
-        <file>images/home.png</file>
-        <file>images/skip.png</file>
-        <file>images/previous.png</file>
-        <file>images/play.png</file>
-        <file>images/pause.png</file>
-        <file>images/volume.png</file>
-        <file>images/placeholder.png</file>
-        <file>images/music.png</file>
-        <file>images/settings.png</file>
-        <file>images/file.png</file>
-        <file>images/bluetooth.png</file>
         <file>images/battery/dark/0.svg</file>
         <file>images/battery/dark/1.svg</file>
         <file>images/battery/dark/2.svg</file>
@@ -61,5 +46,7 @@
         <file>images/menu_icons/light/bluetooth_music.svg</file>
         <file>images/menu_icons/dark/settings.svg</file>
         <file>images/menu_icons/light/settings.svg</file>
+        <file>images/default-background-dark.png</file>
+        <file>images/default-background.png</file>
     </qresource>
 </RCC>
