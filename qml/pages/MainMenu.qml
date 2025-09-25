@@ -18,7 +18,7 @@ GridLayout {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                stackView.push(musicMenuComponent)
+                stackView.push(bluetoothMusicPageComponent)
             }
         }
     }
