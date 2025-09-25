@@ -36,6 +36,14 @@ Page {
                         Layout.fillWidth: false
                         color: "black"
                     }
+
+                    Connections {
+                        target: BluetoothMediaController
+                        onErrorOccurred: {
+                            deviceComboBox.currentIndex = -1; // Reset selection on error
+                        }
+                    }
+
                     ComboBox {
                         id: deviceComboBox
                         Layout.fillWidth: true
