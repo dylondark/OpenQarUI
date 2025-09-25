@@ -39,8 +39,9 @@ Page {
 
                     Connections {
                         target: BluetoothMediaController
-                        onErrorOccurred: {
+                        function onErrorOccurred(message) {
                             deviceComboBox.currentIndex = -1; // Reset selection on error
+                            errorLabel.text = message;
                         }
                     }
 
@@ -56,6 +57,8 @@ Page {
                                 let selectedDevice = model[currentIndex];
                                 let mac = selectedDevice.address; // <-- the MAC address
                                 console.log("Selected:", selectedDevice.name, mac);
+
+                                errorLabel.text = ""; // Clear previous error
 
                                 // Call into C++ to connect
                                 BluetoothMediaController.connectToDevice(mac);
@@ -73,6 +76,14 @@ Page {
                                 }
                             }
                         }
+                    }
+
+                    Label {
+                        id: errorLabel
+                        text: ""
+                        font.pixelSize: 14
+                        color: "red"
+                        Layout.fillWidth: false
                     }
                 }
             }
