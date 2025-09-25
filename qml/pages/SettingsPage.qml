@@ -30,6 +30,12 @@ Page {
                 RowLayout {
                     Layout.fillWidth: true
 
+                    Label {
+                        text: "Connected Devices: "
+                        font.pixelSize: 14
+                        Layout.fillWidth: false
+                        color: "black"
+                    }
                     ComboBox {
                         id: deviceComboBox
                         Layout.fillWidth: true
