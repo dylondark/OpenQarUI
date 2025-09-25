@@ -45,5 +45,7 @@
         <file>images/media/light/pause.svg</file>
         <file>images/media/light/play.svg</file>
         <file>images/media/light/previous.svg</file>
+        <file>images/placeholder_image/dark/image.svg</file>
+        <file>images/placeholder_image/light/image.svg</file>
     </qresource>
 </RCC>
