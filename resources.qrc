@@ -37,5 +37,13 @@
         <file>images/bluetooth/light/connected.svg</file>
         <file>images/bluetooth/light/disabled.svg</file>
         <file>images/bluetooth/light/enabled.svg</file>
+        <file>images/media/dark/next.svg</file>
+        <file>images/media/dark/pause.svg</file>
+        <file>images/media/dark/play.svg</file>
+        <file>images/media/dark/previous.svg</file>
+        <file>images/media/light/next.svg</file>
+        <file>images/media/light/pause.svg</file>
+        <file>images/media/light/play.svg</file>
+        <file>images/media/light/previous.svg</file>
     </qresource>
 </RCC>
