@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import OpenQarUI
+import QtQuick.VectorImage
 
 Page {
     id: page
@@ -110,15 +111,15 @@ Page {
                             RowLayout {
                                 id: controlButtonsLayout
                                 anchors.fill: parent
-                                anchors.margins: 70
+                                anchors.margins: 40
 
-                                Image {
+                                VectorImage {
                                     id: previousButton
                                     Layout.fillHeight: true
                                     Layout.preferredWidth: height
-                                    source: "qrc:/images/previous.png"
-                                    fillMode: Image.PreserveAspectFit
-                                    smooth: true
+                                    source: "qrc:/images/media/light/previous.svg"
+                                    fillMode: VectorImage.PreserveAspectFit
+                                    preferredRendererType: VectorImage.CurveRenderer
 
                                     MouseArea {
                                         anchors.fill: parent
@@ -128,13 +129,13 @@ Page {
                                     }
                                 }
 
-                                Image {
+                                VectorImage {
                                     id: playPauseButton
                                     Layout.fillHeight: true
                                     Layout.preferredWidth: height
-                                    source: BluetoothMediaController.playing ? "qrc:/images/pause.png" : "qrc:/images/play.png"
-                                    fillMode: Image.PreserveAspectFit
-                                    smooth: true
+                                    source: BluetoothMediaController.playing ? "qrc:/images/media/light/pause.svg" : "qrc:/images/media/light/play.svg"
+                                    fillMode: VectorImage.PreserveAspectFit
+                                    preferredRendererType: VectorImage.CurveRenderer
 
                                     MouseArea {
                                         anchors.fill: parent
@@ -148,13 +149,13 @@ Page {
                                     }
                                 }
 
-                                Image {
+                                VectorImage {
                                     id: nextButton
                                     Layout.fillHeight: true
                                     Layout.preferredWidth: height
-                                    source: "qrc:/images/skip.png"
-                                    fillMode: Image.PreserveAspectFit
-                                    smooth: true
+                                    source: "qrc:/images/media/light/next.svg"
+                                    fillMode: VectorImage.PreserveAspectFit
+                                    preferredRendererType: VectorImage.CurveRenderer
 
                                     MouseArea {
                                         anchors.fill: parent

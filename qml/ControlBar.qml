@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import OpenQarUI
+import QtQuick.VectorImage
 
 Rectangle {
     id: controlBarBase
@@ -80,14 +81,13 @@ Rectangle {
                 }
             }
 
-            Image {
+            VectorImage {
                 id: previousButton
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
-                source: "qrc:/images/previous.png"
-                fillMode: Image.PreserveAspectFit
-                smooth: true
-                Layout.margins: 10
+                source: "qrc:/images/media/light/previous.svg"
+                fillMode: VectorImage.PreserveAspectFit
+                preferredRendererType: VectorImage.CurveRenderer
 
                 MouseArea {
                     anchors.fill: parent
@@ -97,15 +97,13 @@ Rectangle {
                 }
             }
 
-            Image {
+            VectorImage {
                 id: playPauseButton
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
-                source: BluetoothMediaController.playing ? "qrc:/images/pause.png" : "qrc:/images/play.png"
-                fillMode: Image.PreserveAspectFit
-                smooth: true
-                Layout.topMargin: 10
-                Layout.bottomMargin: 10
+                source: BluetoothMediaController.playing ? "qrc:/images/media/light/pause.svg" : "qrc:/images/media/light/play.svg"
+                fillMode: VectorImage.PreserveAspectFit
+                preferredRendererType: VectorImage.CurveRenderer
 
                 property bool play: true // play or pause?
 
@@ -121,14 +119,13 @@ Rectangle {
                 }
             }
 
-            Image {
+            VectorImage {
                 id: nextButton
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
-                source: "qrc:/images/skip.png"
-                fillMode: Image.PreserveAspectFit
-                smooth: true
-                Layout.margins: 10
+                source: "qrc:/images/media/light/next.svg"
+                fillMode: VectorImage.PreserveAspectFit
+                preferredRendererType: VectorImage.CurveRenderer
 
                 MouseArea {
                     anchors.fill: parent
