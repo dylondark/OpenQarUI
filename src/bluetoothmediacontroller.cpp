@@ -36,6 +36,12 @@ BluetoothMediaController::BluetoothMediaController(QObject *parent)
 
     threadWorker.moveToThread(&networkThread);
     networkThread.start();
+
+    // attempt to connect to last device
+    QSettings settings("config.ini", QSettings::IniFormat);
+    QString lastDevice = settings.value("Bluetooth/LastConnectedDevice", "").toString();
+    if (!lastDevice.isEmpty())
+        connectToDevice(lastDevice);
 }
 
 BluetoothMediaController::~BluetoothMediaController()
@@ -222,6 +228,10 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
     emit deviceChanged();
 
     updatePlaybackStatus();
+
+    // save in settings
+    QSettings settings("config.ini", QSettings::IniFormat);
+    settings.setValue("Bluetooth/LastConnectedDevice", m_deviceAddress);
 }
 
 void BluetoothMediaController::disconnectDevice()
