@@ -22,7 +22,8 @@ Page {
 
                 Label {
                     text: "Bluetooth Device"
-                    font.pixelSize: 22
+                    font.pixelSize: 20
+                    font.bold: true
                     Layout.fillWidth: true
                     color: "black"
                 }
@@ -32,7 +33,7 @@ Page {
 
                     Label {
                         text: "Connected Devices: "
-                        font.pixelSize: 14
+                        font.pixelSize: 16
                         Layout.fillWidth: false
                         color: "black"
                     }
@@ -81,7 +82,7 @@ Page {
                     Label {
                         id: errorLabel
                         text: ""
-                        font.pixelSize: 14
+                        font.pixelSize: 16
                         color: "red"
                         Layout.fillWidth: false
                     }
