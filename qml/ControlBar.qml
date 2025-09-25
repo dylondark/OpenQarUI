@@ -146,14 +146,13 @@ Rectangle {
             Layout.fillWidth: true
             spacing: 10
 
-            Image {
+            VectorImage {
                 id: volumeIcon
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
-                source: "qrc:/images/volume.png"
+                source: "qrc:/images/volume/light/" + Math.ceil(volumeSlider.value / 33.34) + ".svg"
                 fillMode: Image.PreserveAspectFit
-                smooth: true
-                Layout.margins: 10
+                preferredRendererType: VectorImage.CurveRenderer
 
                 MouseArea {
                     anchors.fill: parent
