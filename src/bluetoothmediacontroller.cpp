@@ -215,6 +215,15 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
         return;
     }
 
+    // test if device is a media device
+    reply = m_mediaInfoInterface->call("Get", "org.bluez.MediaPlayer1", "Track");
+    if (!reply.isValid())
+    {
+        emit errorOccurred("Device " + deviceAddress + " is not a media device");
+        return;
+    }
+
+
     // battery interface (optional)
     QDBusReply<QDBusVariant> batteryReply = m_deviceInterface->call("Get", "org.bluez.Battery1", "Percentage");
     m_batteryLevel = batteryReply.isValid() ? batteryReply.value().variant().toInt() : -1;
