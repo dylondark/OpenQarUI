@@ -43,7 +43,7 @@ ScrollView {
                 }
             }
 
-            Component {
+            /*Component {
                 id: musicMenuComponent
 
                 Pages.MusicMenu {
@@ -52,9 +52,9 @@ ScrollView {
                     anchors.right: stackView.right
                     anchors.margins: 10
                 }
-            }
+            }*/
 
-            Component {
+            /*Component {
                 id: settingsMenuComponent
 
                 Pages.SettingsMenu {
@@ -63,7 +63,7 @@ ScrollView {
                     anchors.right: stackView.right
                     anchors.margins: 10
                 }
-            }
+            }*/
 
             // Settings page component
             Component {
