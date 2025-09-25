@@ -3,6 +3,7 @@ import QtQuick.VirtualKeyboard
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
 import OpenQarUI
+import Qt.labs.settings
 
 Window {
     id: window
@@ -10,6 +11,15 @@ Window {
     height: 720
     visible: true
     title: qsTr("OpenQarUI")
+
+    Settings {
+        id: appSettings
+        category: "Debug"
+        fileName: "config.ini"
+    }
+
+    // launch in fullscreen unless secret debug setting for windowed mode is enabled
+    visibility: appSettings.value("WindowMode", "fullscreen") === "windowed" ? Window.Windowed : Window.FullScreen
 
     Image {
         id: background
