@@ -96,6 +96,9 @@ private:
     void handleDbusSignal(...); // callback for DBus properties change
     void internalErrorHandle(const QString& message);
 
+private slots:
+    void onPropertiesChanged(const QString &interface, const QVariantMap &changed, const QStringList &invalidatedProperties);
+
 };
 
 #endif // BLUETOOTHMEDIACONTROLLER_H

@@ -40,8 +40,24 @@ BluetoothMediaController::BluetoothMediaController(QObject *parent)
     // attempt to connect to last device
     QSettings settings("config.ini", QSettings::IniFormat);
     QString lastDevice = settings.value("Bluetooth/LastConnectedDevice", "").toString();
-    if (!lastDevice.isEmpty())
-        connectToDevice(lastDevice);
+    if (!lastDevice.isEmpty() && lastDevice.startsWith("/org/bluez/hci"))
+    /*
+        IMPORTANT TODO: if the path in lastDevice is malformed it could crash the program because dbus will throw an error
+        this is a rudimentary way of checking if the path is correct but it should really be stored somewhere the user cant touch it
+    */
+    {
+        // attempt to physically connect, if already connected this will do nothing
+        const QString service = "org.bluez";
+        const QString interface = "org.bluez.Device1";
+        systemBus.connect(service, lastDevice, "org.freedesktop.DBus.Properties", "PropertiesChanged",
+                          this, SLOT(onPropertiesChanged(QString, QVariantMap, QStringList)));
+        QDBusInterface devIface(service, lastDevice, interface, systemBus, this);
+        QDBusReply<void> reply = devIface.call("Connect");
+        QThread::sleep(1); // give it some time for properties to settle
+
+        // also try to connect our program
+        connectToDevice(lastDevice.last(17)); // give it only the mac address
+    }
 }
 
 BluetoothMediaController::~BluetoothMediaController()
@@ -54,6 +70,21 @@ BluetoothMediaController::~BluetoothMediaController()
 
     updateTimer.stop();
 }
+
+void BluetoothMediaController::onPropertiesChanged(const QString &interface, const QVariantMap &changed, const QStringList &invalidated)
+{
+    if (interface == "org.bluez.Device1" && changed.contains("Connected"))
+    {
+        bool connected = changed.value("Connected").toBool();
+        if (connected)
+        {
+            QSettings settings("config.ini", QSettings::IniFormat);
+            QString lastDevice = settings.value("Bluetooth/LastConnectedDevice", "").toString();
+            connectToDevice(lastDevice.last(17));
+        }
+    }
+}
+
 
 bool BluetoothMediaController::isConnected() const
 {
@@ -306,7 +337,7 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
 
     // Save in settings
     QSettings settings("config.ini", QSettings::IniFormat);
-    settings.setValue("Bluetooth/LastConnectedDevice", m_deviceAddress);
+    settings.setValue("Bluetooth/LastConnectedDevice", devicePath);
 }
 
 
