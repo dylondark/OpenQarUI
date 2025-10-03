@@ -178,44 +178,112 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
     m_deviceAddress = deviceAddress;
 
     const QString service = "org.bluez";
-    QString path = "/org/bluez/hci0/dev_" + m_deviceAddress.replace(":", "_") + "/avrcp/player0";
+
+    // get managed objects from bluez
+    QDBusInterface manager(service, "/", "org.freedesktop.DBus.ObjectManager", systemBus);
+    if (!manager.isValid())
+    {
+        emit errorOccurred("Failed to create D-Bus ObjectManager interface");
+        return;
+    }
+
+    QDBusMessage msg = manager.call("GetManagedObjects");
+    if (msg.type() == QDBusMessage::ErrorMessage || msg.arguments().isEmpty())
+    {
+        emit errorOccurred("Failed to get managed objects from BlueZ");
+        return;
+    }
+
+    QDBusArgument dbusArg = msg.arguments().at(0).value<QDBusArgument>();
+    QMap<QDBusObjectPath, QMap<QString, QVariantMap>> managedObjects;
+    dbusArg >> managedObjects;
+
+    // find the base device with matching mac
+    QString devicePath;
+    QString playerPath;
+    QString normalizedAddr = deviceAddress;
+    normalizedAddr.replace(":", "_");
+
+    for (auto it = managedObjects.begin(); it != managedObjects.end(); ++it)
+    {
+        const QDBusObjectPath &objectPath = it.key();
+        const QMap<QString, QVariantMap> &interfaces = it.value();
+
+        // Check if this is a Device1 object with matching Address
+        if (interfaces.contains("org.bluez.Device1"))
+        {
+            const QVariantMap &deviceProps = interfaces.value("org.bluez.Device1");
+            QString addr = deviceProps.value("Address").toString();
+            QString addrNorm = addr;
+            addrNorm.replace(":", "_");
+
+            if (addrNorm == normalizedAddr)
+            {
+                devicePath = objectPath.path();
+            }
+        }
+
+        // Check for a MediaPlayer1 object under this device
+        if (interfaces.contains("org.bluez.MediaPlayer1"))
+        {
+            QString objPath = objectPath.path();
+            if (objPath.contains(normalizedAddr))
+            {
+                playerPath = objPath;
+            }
+        }
+    }
+
+    if (devicePath.isEmpty())
+    {
+        emit errorOccurred("Could not find device path for " + deviceAddress);
+        return;
+    }
+    if (playerPath.isEmpty())
+    {
+        emit errorOccurred("Could not find media player path for " + deviceAddress);
+        return;
+    }
+
+    // --- connect to interfaces ---
+
     QString interface = "org.bluez.MediaPlayer1";
 
     // media player interface
-    m_mediaPlayerInterface = new QDBusInterface(service, path, interface, systemBus, this);
+    m_mediaPlayerInterface = new QDBusInterface(service, playerPath, interface, systemBus, this);
     if (!m_mediaPlayerInterface->isValid())
     {
-        emit errorOccurred("Failed to create D-Bus interface for device");
+        emit errorOccurred("Failed to create D-Bus MediaPlayer interface");
         return;
     }
 
-    // media info interface
+    // media info interface (Properties on the player path)
     interface = "org.freedesktop.DBus.Properties";
-    m_mediaInfoInterface = new QDBusInterface(service, path, interface, systemBus, this);
+    m_mediaInfoInterface = new QDBusInterface(service, playerPath, interface, systemBus, this);
     if (!m_mediaInfoInterface->isValid())
     {
-        emit errorOccurred("Failed to create D-Bus properties interface for device");
+        emit errorOccurred("Failed to create D-Bus properties interface");
         return;
     }
 
-    // device interface
-    path = "/org/bluez/hci0/dev_" + m_deviceAddress.replace(":", "_");
-    m_deviceInterface = new QDBusInterface(service, path, interface, systemBus, this);
+    // device interface (Properties on the device path)
+    m_deviceInterface = new QDBusInterface(service, devicePath, interface, systemBus, this);
     if (!m_deviceInterface->isValid())
     {
-        emit errorOccurred("Failed to create D-Bus device interface for device");
+        emit errorOccurred("Failed to create D-Bus device interface");
         return;
     }
 
-    // test device connection
+    // --- verify connections ---
+    // test if device is connected
     QDBusReply<QDBusVariant> reply = m_deviceInterface->call("Get", "org.bluez.Device1", "Connected");
     if (!reply.isValid() || !reply.value().variant().toBool())
     {
-        emit errorOccurred("Unable to establish connection with device " + deviceAddress);
+        emit errorOccurred("Device " + deviceAddress + " is not connected");
         return;
     }
 
-    // test if device is a media device
+    // test if media player works
     reply = m_mediaInfoInterface->call("Get", "org.bluez.MediaPlayer1", "Track");
     if (!reply.isValid())
     {
@@ -223,25 +291,24 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
         return;
     }
 
-
-    // battery interface (optional)
+    // battery (optional)
     QDBusReply<QDBusVariant> batteryReply = m_deviceInterface->call("Get", "org.bluez.Battery1", "Percentage");
     m_batteryLevel = batteryReply.isValid() ? batteryReply.value().variant().toInt() : -1;
 
-    // get device name
+    // device name
     reply = m_deviceInterface->call("Get", "org.bluez.Device1", "Name");
     m_deviceName = reply.value().variant().toString();
 
     m_connected = true;
-
     emit deviceChanged();
 
     updatePlaybackStatus();
 
-    // save in settings
+    // Save in settings
     QSettings settings("config.ini", QSettings::IniFormat);
     settings.setValue("Bluetooth/LastConnectedDevice", m_deviceAddress);
 }
+
 
 void BluetoothMediaController::disconnectDevice()
 {
@@ -304,6 +371,7 @@ QVariantList BluetoothMediaController::getConnectedDevices()
 
     for (auto it = managedObjects.begin(); it != managedObjects.end(); ++it)
     {
+        const QDBusObjectPath &objectPath = it.key(); // <-- full device path
         const QMap<QString, QVariantMap> &interfaces = it.value();
 
         if (!interfaces.contains("org.bluez.Device1"))
@@ -320,6 +388,7 @@ QVariantList BluetoothMediaController::getConnectedDevices()
         QVariantMap deviceInfo;
         deviceInfo["address"]   = address;
         deviceInfo["name"]      = name;
+        deviceInfo["path"]      = objectPath.path();  // <-- full D-Bus path
 
         deviceList.append(deviceInfo);
     }
