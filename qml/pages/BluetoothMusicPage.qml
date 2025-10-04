@@ -48,7 +48,7 @@ Page {
                     Image {
                         id: fullAlbumArt
                         anchors.centerIn: parent
-                        source: BluetoothMediaController.connected ? BluetoothMediaController.coverURL : "qrc:/images/placeholder_image/light/image.svg"
+                        source: BluetoothMediaController.connected ? BluetoothMediaController.coverURL : "qrc:/images/placeholder_image/light/image.png"
                         width: parent.width / 1.5
                         height: width
                         sourceSize.width: 300

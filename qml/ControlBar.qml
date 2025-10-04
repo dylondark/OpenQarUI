@@ -47,7 +47,7 @@ Rectangle {
                 id: albumImage
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
-                source: BluetoothMediaController.connected ? BluetoothMediaController.coverURL : "qrc:/images/placeholder_image/light/image.svg"
+                source: BluetoothMediaController.connected ? BluetoothMediaController.coverURL : "qrc:/images/placeholder_image/light/image.png"
                 Layout.topMargin: 10
                 Layout.bottomMargin: 10
                 smooth: true

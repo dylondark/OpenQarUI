@@ -529,7 +529,7 @@ void BluetoothMediaController::updatePlaybackStatus()
 
         // return placeholder image if no valid URL retrieved
         if (!m_coverURL.contains("https://"))
-            m_coverURL = "qrc:/images/placeholder_image/light/image.svg";
+            m_coverURL = "qrc:/images/placeholder_image/light/image.png";
 
         emit coverArtRetrieved();
     });

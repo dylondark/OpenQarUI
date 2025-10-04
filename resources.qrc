@@ -49,5 +49,7 @@
         <file>images/default-background-dark.png</file>
         <file>images/default-background.png</file>
         <file>fonts/NotoSans-Regular.ttf</file>
+        <file>images/placeholder_image/dark/image.png</file>
+        <file>images/placeholder_image/light/image.png</file>
     </qresource>
 </RCC>
