@@ -48,5 +48,6 @@
         <file>images/menu_icons/light/settings.svg</file>
         <file>images/default-background-dark.png</file>
         <file>images/default-background.png</file>
+        <file>fonts/NotoSans-Regular.ttf</file>
     </qresource>
 </RCC>

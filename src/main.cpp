@@ -1,12 +1,21 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "bluetoothmediacontroller.h"
+#include <QFontDatabase>
 
 int main(int argc, char *argv[])
 {
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
 
     QGuiApplication app(argc, argv);
+
+    // Register font from resources
+    int id = QFontDatabase::addApplicationFont(":/fonts/NotoSans-Regular.ttf");
+    QString family = QFontDatabase::applicationFontFamilies(id).at(0);
+
+    // Set as default
+    QFont defaultFont(family, 12);
+    app.setFont(defaultFont);
 
     QQmlApplicationEngine engine;
     QObject::connect(
