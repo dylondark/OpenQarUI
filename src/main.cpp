@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "bluetoothmediacontroller.h"
+#include "pulseaudiocontroller.h"
 #include <QFontDatabase>
 
 int main(int argc, char *argv[])
@@ -27,6 +28,8 @@ int main(int argc, char *argv[])
 
     BluetoothMediaController bmc;
     qmlRegisterSingletonInstance<BluetoothMediaController>("OpenQarUI", 1, 0, "BluetoothMediaController", &bmc);
+    PulseAudioController pac;
+    qmlRegisterSingletonInstance<PulseAudioController>("OpenQarUI", 1, 0, "PulseAudioController", &pac);
 
     engine.loadFromModule("OpenQarUI", "Main");
 
