@@ -4,9 +4,7 @@ project(OpenQarUI VERSION 0.1 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 REQUIRED COMPONENTS Quick Core)
-find_package(Qt6 REQUIRED COMPONENTS Core)
-
+find_package(Qt6 REQUIRED COMPONENTS Quick Core DBus)
 qt_standard_project_setup(REQUIRES 6.8)
 
 set(CMAKE_AUTORCC ON)
@@ -17,6 +15,10 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 # Collect all source and header files
 file(GLOB_RECURSE SOURCES src/*.cpp)
 file(GLOB_RECURSE HEADERS include/*.h)
+
+# Find PulseAudio
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(PULSE REQUIRED libpulse)
 
 # Add executable
 qt_add_executable(appOpenQarUI
@@ -52,13 +54,16 @@ set_target_properties(appOpenQarUI PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-# Link Qt libraries
+# Include PulseAudio headers
+target_include_directories(appOpenQarUI PRIVATE ${PULSE_INCLUDE_DIRS})
+
+# Link libraries
 target_link_libraries(appOpenQarUI
     PRIVATE Qt6::Quick
     PRIVATE Qt6::Core
     PRIVATE Qt6::DBus
+    PRIVATE ${PULSE_LIBRARIES}
 )
-target_link_libraries(appOpenQarUI PRIVATE Qt6::Core)
 
 # Install rules
 include(GNUInstallDirs)
