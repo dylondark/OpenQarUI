@@ -52,6 +52,7 @@ private:
     bool m_ready;
     QStringList m_sinks;
     int m_defaultSink;
+    qreal m_defaultSinkVolume;
     QStringList m_sources;
     int m_defaultSource;
 
