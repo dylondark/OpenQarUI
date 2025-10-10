@@ -5,9 +5,7 @@ PulseAudioController::PulseAudioController(QObject *parent)
     : QObject(parent),
     m_mainloop(nullptr),
     m_context(nullptr),
-    m_ready(false),
-    m_defaultSink(-1),
-    m_defaultSource(-1)
+    m_ready(false)
 {
     connectPulseAudio();
 }
@@ -84,8 +82,6 @@ void PulseAudioController::disconnectPulseAudio()
     m_ready = false;
     m_sinks.clear();
     m_sources.clear();
-    m_defaultSink = -1;
-    m_defaultSource = -1;
 
     emit readyChanged();
     emit sinksChanged();
@@ -101,34 +97,36 @@ bool PulseAudioController::isReady() const
     return m_ready;
 }
 
-QStringList PulseAudioController::sinks() const
+QVector<AudioDevice> PulseAudioController::sinks() const
 {
     return m_sinks;
 }
 
-int PulseAudioController::defaultSink() const
+AudioDevice PulseAudioController::defaultSink() const
 {
-    return m_defaultSink;
+    for (const auto &sink : m_sinks)
+    {
+        if (sink.isDefault)
+            return sink;
+    }
+
+    return {true, "NULL", -1, 0.0, false}; // if there is no default
 }
 
-qreal PulseAudioController::defaultSinkVolume() const
-{
-    return m_defaultSinkVolume;
-}
-
-QStringList PulseAudioController::sources() const
+QVector<AudioDevice> PulseAudioController::sources() const
 {
     return m_sources;
 }
 
-int PulseAudioController::defaultSource() const
+AudioDevice PulseAudioController::defaultSource() const
 {
-    return m_defaultSource;
-}
+    for (const auto &source : m_sources)
+    {
+        if (source.isDefault)
+            return source;
+    }
 
-qreal PulseAudioController::defaultSourceVolume() const
-{
-    return 0.0; // stub
+    return {false, "NULL", -1, 0.0, false}; // if there is no default
 }
 
 /* -------------------- Setters -------------------- */
@@ -147,13 +145,28 @@ void PulseAudioController::setDefaultSource(int index)
 
 void PulseAudioController::setDefaultSinkVolume(qreal volume)
 {
-    m_defaultSinkVolume = volume;
+    for (auto &sink : m_sinks)
+    {
+        if (sink.isDefault)
+        {
+            sink.volume = volume;
+            emit defaultSinkVolumeChanged();
+            return;
+        }
+    }
 }
 
 void PulseAudioController::setDefaultSourceVolume(qreal volume)
 {
-    Q_UNUSED(volume);
-    // stub
+    for (auto &source : m_sources)
+    {
+        if (source.isDefault)
+        {
+            source.volume = volume;
+            emit defaultSourceVolumeChanged();
+            return;
+        }
+    }
 }
 
 /* -------------------- Callbacks & Internal -------------------- */
@@ -182,19 +195,27 @@ void PulseAudioController::sinkInfoCallback(pa_context *c, const pa_sink_info *i
     if (!i)
         return;
 
-    QString sinkName = QString::fromUtf8(i->name);
-    if (!self->m_sinks.contains(sinkName))
+    AudioDevice thisSink = {true, QString(i->name), i->index, 0.0, false};
+
+    // add to list or update existing
+    bool found = false;
+    for (auto &sink : self->m_sinks)
     {
-        self->m_sinks.append(sinkName);
-        // For simplicity, set the first sink as default if none is set
-        if (self->defaultSink() == -1)
+        if (sink.index == thisSink.index)
         {
-            self->setDefaultSink(0);
-            emit self->defaultSinkChanged();
+            // update existing
+            sink.name = thisSink.name;
+            found = true;
+            break;
         }
     }
+    if (!found)
+    {
+        // new sink
+        self->m_sinks.append(thisSink);
+    }
 
-    if (i->index == self->defaultSink())
+    if (i->index == self->defaultSink().index)
     {
         // Update default sink volume
         if (i->volume.channels > 0)

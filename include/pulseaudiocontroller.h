@@ -3,7 +3,25 @@
 
 #include <QObject>
 #include <QQmlEngine>
+#include <QVector>
 #include <pulse/pulseaudio.h>
+
+struct AudioDevice
+{
+    Q_GADGET
+    Q_PROPERTY(bool sink MEMBER sink) // false for source
+    Q_PROPERTY(QString name MEMBER name)
+    Q_PROPERTY(int index MEMBER index)
+    Q_PROPERTY(qreal volume MEMBER volume) // 0.0 - 1.0
+    Q_PROPERTY(bool isDefault MEMBER isDefault)
+
+public:
+    bool sink;
+    QString name;
+    int index;
+    qreal volume;
+    bool isDefault;
+};
 
 class PulseAudioController : public QObject
 {
@@ -12,28 +30,23 @@ class PulseAudioController : public QObject
 
 public:
     Q_PROPERTY(bool ready READ isReady NOTIFY readyChanged)
-    Q_PROPERTY(QStringList sinks READ sinks NOTIFY sinksChanged)
-    Q_PROPERTY(int defaultSink READ defaultSink NOTIFY defaultSinkChanged)
-    Q_PROPERTY(qreal defaultSinkVolume READ defaultSinkVolume NOTIFY defaultSinkVolumeChanged)
-    Q_PROPERTY(QStringList sources READ sources NOTIFY sourcesChanged)
-    Q_PROPERTY(int defaultSource READ defaultSource NOTIFY defaultSourceChanged)
-    Q_PROPERTY(qreal defaultSourceVolume READ defaultSourceVolume NOTIFY defaultSourceVolumeChanged)
+    Q_PROPERTY(QVector<AudioDevice> sinks READ sinks NOTIFY sinksChanged)
+    Q_PROPERTY(QVector<AudioDevice> sources READ sources NOTIFY sourcesChanged)
 
     explicit PulseAudioController(QObject *parent = nullptr);
     ~PulseAudioController();
 
     Q_INVOKABLE bool isReady() const;
-    Q_INVOKABLE QStringList sinks() const;
-    Q_INVOKABLE int defaultSink() const;
-    Q_INVOKABLE qreal defaultSinkVolume() const;
-    Q_INVOKABLE QStringList sources() const;
-    Q_INVOKABLE int defaultSource() const;
-    Q_INVOKABLE qreal defaultSourceVolume() const;
+    Q_INVOKABLE QVector<AudioDevice> sinks() const;
+    Q_INVOKABLE AudioDevice defaultSink() const;
+    Q_INVOKABLE QVector<AudioDevice> sources() const;
+    Q_INVOKABLE AudioDevice defaultSource() const;
 
     Q_INVOKABLE void setDefaultSink(int index);
     Q_INVOKABLE void setDefaultSource(int index);
     Q_INVOKABLE void setDefaultSinkVolume(qreal volume);
     Q_INVOKABLE void setDefaultSourceVolume(qreal volume);
+
 
 signals:
     void readyChanged();
@@ -50,11 +63,8 @@ private:
     pa_context *m_context;
 
     bool m_ready;
-    QStringList m_sinks;
-    int m_defaultSink;
-    qreal m_defaultSinkVolume;
-    QStringList m_sources;
-    int m_defaultSource;
+    QVector<AudioDevice> m_sinks;
+    QVector<AudioDevice> m_sources;
 
     static void contextStateCallback(pa_context *c, void *userdata);
     static void sinkInfoCallback(pa_context *c, const pa_sink_info *i, int eol, void *userdata);
