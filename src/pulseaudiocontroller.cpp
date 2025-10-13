@@ -195,7 +195,7 @@ void PulseAudioController::sinkInfoCallback(pa_context *c, const pa_sink_info *i
     if (!i)
         return;
 
-    AudioDevice thisSink = {true, QString(i->name), i->index, 0.0, false};
+    AudioDevice thisSink = {true, QString(i->name), static_cast<int>(i->index), 0.0, false};
 
     // add to list or update existing
     bool found = false;
