@@ -7,6 +7,7 @@ PulseAudioController::PulseAudioController(QObject *parent)
     m_context(nullptr),
     m_ready(false)
 {
+    connect(this, &PulseAudioController::errorOccurred, this, &PulseAudioController::internalErrorHandle);
     connectPulseAudio();
 }
 
