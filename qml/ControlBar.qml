@@ -166,14 +166,14 @@ Rectangle {
                 id: volumeSlider
                 Layout.fillWidth: true
                 Layout.fillHeight: true
-                from: 0
-                to: 100
-                stepSize: 1
-                value: 50 // Default volume level
+                from: 0.0
+                to: 1.0
+                stepSize: 0.01
+                value: 0.5
                 Layout.rightMargin: 10
 
                 onValueChanged: {
-                    // Implement volume change functionality here
+                    PulseAudioController.setDefaultSinkVolume(volumeSlider.value)
                 }
             }
         }
