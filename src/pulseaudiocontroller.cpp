@@ -134,8 +134,18 @@ AudioDevice PulseAudioController::defaultSource() const
 
 void PulseAudioController::setDefaultSink(int index)
 {
-    Q_UNUSED(index);
-    // stub
+    for (auto &sink : m_sinks)
+    {
+        if (sink.index == index)
+        {
+            sink.isDefault = true;
+            emit defaultSinkChanged();
+        }
+        else
+        {
+            sink.isDefault = false;
+        }
+    }
 }
 
 void PulseAudioController::setDefaultSource(int index)
