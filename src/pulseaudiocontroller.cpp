@@ -162,7 +162,7 @@ void PulseAudioController::setSinkVolume(int index, qreal volume)
 
             // actually set the volume of the sink
             pa_cvolume cvol;
-            pa_cvolume_set(&cvol, 2, pa_sw_volume_from_linear(volume)); // 2 channels
+            pa_cvolume_set(&cvol, 2, pa_sw_volume_from_linear(pow(volume, 3.0))); // 2 channels
             pa_context_set_sink_volume_by_index(m_context, index, &cvol, nullptr, nullptr);
 
             emit sinksChanged();
