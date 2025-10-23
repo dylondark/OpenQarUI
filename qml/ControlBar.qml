@@ -175,6 +175,16 @@ Rectangle {
                 onValueChanged: {
                     PulseAudioController.setSinkVolume(PulseAudioController.defaultSink().index, volumeSlider.value)
                 }
+
+                Connections {
+                    target: PulseAudioController
+                    function onSinksChanged() {
+                        var sink = PulseAudioController.defaultSink()
+                        if (sink) {
+                            volumeSlider.value = sink.volume
+                        }
+                    }
+                }
             }
         }
     }
