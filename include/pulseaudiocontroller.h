@@ -44,18 +44,16 @@ public:
 
     Q_INVOKABLE void setDefaultSink(int index);
     Q_INVOKABLE void setDefaultSource(int index);
-    Q_INVOKABLE void setDefaultSinkVolume(qreal volume);
-    Q_INVOKABLE void setDefaultSourceVolume(qreal volume);
+    Q_INVOKABLE void setSinkVolume(int index, qreal volume);
+    Q_INVOKABLE void setSourceVolume(int index, qreal volume);
 
 
 signals:
     void readyChanged();
     void sinksChanged();
     void defaultSinkChanged();
-    void defaultSinkVolumeChanged();
     void sourcesChanged();
     void defaultSourceChanged();
-    void defaultSourceVolumeChanged();
     void errorOccurred(const QString &message);
 
 private:
@@ -78,6 +76,7 @@ private:
 
 private slots:
     void internalErrorHandle(const QString &message);
+    void internalReadyStateHandle();
 };
 
 #endif // PULSEAUDIOCONTROLLER_H

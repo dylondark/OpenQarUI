@@ -8,6 +8,7 @@ PulseAudioController::PulseAudioController(QObject *parent)
     m_ready(false)
 {
     connect(this, &PulseAudioController::errorOccurred, this, &PulseAudioController::internalErrorHandle);
+    connect(this, &PulseAudioController::readyChanged, this, &PulseAudioController::internalReadyStateHandle);
     connectPulseAudio();
 }
 
@@ -60,10 +61,6 @@ void PulseAudioController::connectPulseAudio()
     // Successfully initiated connection
     m_ready = true;
     emit readyChanged();
-
-    // TODO: populate initial sinks and sources
-    updateSinks();
-    updateSources();
 }
 
 void PulseAudioController::disconnectPulseAudio()
@@ -154,27 +151,34 @@ void PulseAudioController::setDefaultSource(int index)
     // stub
 }
 
-void PulseAudioController::setDefaultSinkVolume(qreal volume)
+void PulseAudioController::setSinkVolume(int index, qreal volume)
 {
     for (auto &sink : m_sinks)
     {
-        if (sink.isDefault)
+        if (sink.index == index)
         {
+            // set the volume for our internal data structure
             sink.volume = volume;
-            emit defaultSinkVolumeChanged();
+
+            // actually set the volume of the sink
+            pa_cvolume cvol;
+            pa_cvolume_set(&cvol, 2, pa_sw_volume_from_linear(volume)); // 2 channels
+            pa_context_set_sink_volume_by_index(m_context, index, &cvol, nullptr, nullptr);
+
+            emit sinksChanged();
             return;
         }
     }
 }
 
-void PulseAudioController::setDefaultSourceVolume(qreal volume)
+void PulseAudioController::setSourceVolume(int index, qreal volume)
 {
     for (auto &source : m_sources)
     {
-        if (source.isDefault)
+        if (source.index == index)
         {
             source.volume = volume;
-            emit defaultSourceVolumeChanged();
+            emit sourcesChanged();
             return;
         }
     }
@@ -184,10 +188,26 @@ void PulseAudioController::setDefaultSourceVolume(qreal volume)
 
 void PulseAudioController::contextStateCallback(pa_context *c, void *userdata)
 {
-    Q_UNUSED(c);
-    Q_UNUSED(userdata);
-    // stub
+    auto self = static_cast<PulseAudioController*>(userdata);
+    pa_context_state_t state = pa_context_get_state(c);
+
+    switch (state) {
+    case PA_CONTEXT_READY:
+        qDebug() << "PulseAudio context is ready.";
+        self->m_ready = true;
+        emit self->readyChanged();
+        break;
+    case PA_CONTEXT_FAILED:
+    case PA_CONTEXT_TERMINATED:
+        qWarning() << "PulseAudio context failed or terminated.";
+        self->m_ready = false;
+        emit self->readyChanged();
+        break;
+    default:
+        break;
+    }
 }
+
 
 void PulseAudioController::sinkInfoCallback(pa_context *c, const pa_sink_info *i, int eol, void *userdata)
 {
@@ -226,19 +246,16 @@ void PulseAudioController::sinkInfoCallback(pa_context *c, const pa_sink_info *i
         self->m_sinks.append(thisSink);
     }
 
-    if (i->index == self->defaultSink().index)
+    // Update sink volume
+    if (i->volume.channels > 0)
     {
-        // Update default sink volume
-        if (i->volume.channels > 0)
-        {
-            // Average volume across channels
-            uint32_t totalVolume = 0;
-            for (int ch = 0; ch < i->volume.channels; ++ch)
-                totalVolume += i->volume.values[ch];
-            qreal avgVolume = static_cast<qreal>(totalVolume) / i->volume.channels / PA_VOLUME_NORM;
-            self->setDefaultSinkVolume(avgVolume);
-            emit self->defaultSinkVolumeChanged();
-        }
+        // Average volume across channels
+        uint32_t totalVolume = 0;
+        for (int ch = 0; ch < i->volume.channels; ++ch)
+            totalVolume += i->volume.values[ch];
+        qreal avgVolume = static_cast<qreal>(totalVolume) / i->volume.channels / PA_VOLUME_NORM;
+        self->setSinkVolume(thisSink.index, avgVolume);
+        emit self->sinksChanged();
     }
 }
 
@@ -253,16 +270,35 @@ void PulseAudioController::sourceInfoCallback(pa_context *c, const pa_source_inf
 
 void PulseAudioController::serverInfoCallback(pa_context *c, const pa_server_info *i, void *userdata)
 {
-    Q_UNUSED(c);
-    Q_UNUSED(i);
-    Q_UNUSED(userdata);
-    // stub
+    // get 'this' object (this is a static function)
+    auto self = static_cast<PulseAudioController*>(userdata);
+
+    qDebug() << "server info ran";
+
+    // check if info is valid
+    if (!i)
+        return;
+
+    // sets the default
+    for (auto &sink : self->m_sinks)
+    {
+        if (sink.name == QString(i->default_sink_name))
+        {
+            sink.isDefault = true;
+            emit self->defaultSinkChanged();
+        }
+        else
+        {
+            sink.isDefault = false;
+        }
+    }
 }
 
 void PulseAudioController::updateSinks()
 {
     pa_threaded_mainloop_lock(m_mainloop);
     pa_context_get_sink_info_list(m_context, &PulseAudioController::sinkInfoCallback, this);
+    pa_context_get_server_info(m_context, &PulseAudioController::serverInfoCallback, this); // get the server info for the default sink
     pa_threaded_mainloop_unlock(m_mainloop);
 }
 
@@ -275,4 +311,13 @@ void PulseAudioController::internalErrorHandle(const QString &message)
 {
     qWarning() << "PulseAudio error:" << message;
     emit errorOccurred(message);
+}
+
+void PulseAudioController::internalReadyStateHandle()
+{
+    if (m_ready)
+    {
+        updateSinks();
+        updateSources();
+    }
 }

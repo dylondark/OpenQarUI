@@ -173,7 +173,7 @@ Rectangle {
                 Layout.rightMargin: 10
 
                 onValueChanged: {
-                    PulseAudioController.setDefaultSinkVolume(volumeSlider.value)
+                    PulseAudioController.setSinkVolume(PulseAudioController.defaultSink().index, volumeSlider.value)
                 }
             }
         }
