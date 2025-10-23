@@ -57,10 +57,6 @@ void PulseAudioController::connectPulseAudio()
         disconnectPulseAudio();
         return;
     }
-
-    // Successfully initiated connection
-    m_ready = true;
-    emit readyChanged();
 }
 
 void PulseAudioController::disconnectPulseAudio()
@@ -294,6 +290,13 @@ void PulseAudioController::serverInfoCallback(pa_context *c, const pa_server_inf
     }
 }
 
+void PulseAudioController::subscribeCallback(pa_context *c, pa_subscription_event_type_t t, uint32_t index, void *userdata)
+{
+    auto *self = static_cast<PulseAudioController*>(userdata);
+
+    self->emit readyChanged();
+}
+
 void PulseAudioController::updateSinks()
 {
     pa_threaded_mainloop_lock(m_mainloop);
@@ -317,6 +320,17 @@ void PulseAudioController::internalReadyStateHandle()
 {
     if (m_ready)
     {
+        // set subscribe callback
+        static bool runOnce = true;
+        if (runOnce)
+        {
+            pa_context_set_subscribe_callback(m_context, &PulseAudioController::subscribeCallback, this);
+            pa_operation *o = pa_context_subscribe(m_context, PA_SUBSCRIPTION_MASK_ALL, nullptr, nullptr);
+            if (o)
+                pa_operation_unref(o);
+            runOnce = false;
+        }
+
         updateSinks();
         updateSources();
     }

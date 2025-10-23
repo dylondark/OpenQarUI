@@ -68,6 +68,7 @@ private:
     static void sinkInfoCallback(pa_context *c, const pa_sink_info *i, int eol, void *userdata);
     static void sourceInfoCallback(pa_context *c, const pa_source_info *i, int eol, void *userdata);
     static void serverInfoCallback(pa_context *c, const pa_server_info *i, void *userdata);
+    static void subscribeCallback(pa_context *c, pa_subscription_event_type_t t, uint32_t index, void *userdata);
 
     void connectPulseAudio();
     void disconnectPulseAudio();
