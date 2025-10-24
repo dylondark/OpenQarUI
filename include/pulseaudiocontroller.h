@@ -55,6 +55,7 @@ signals:
     void sourcesChanged();
     void defaultSourceChanged();
     void errorOccurred(const QString &message);
+    void startUpdates(); // for when updates need to be called from a PA thread
 
 private:
     pa_threaded_mainloop *m_mainloop;
@@ -78,6 +79,7 @@ private:
 private slots:
     void internalErrorHandle(const QString &message);
     void internalReadyStateHandle();
+    void internalStartUpdatesHandle();
 };
 
 #endif // PULSEAUDIOCONTROLLER_H

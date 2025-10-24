@@ -9,6 +9,7 @@ PulseAudioController::PulseAudioController(QObject *parent)
 {
     connect(this, &PulseAudioController::errorOccurred, this, &PulseAudioController::internalErrorHandle);
     connect(this, &PulseAudioController::readyChanged, this, &PulseAudioController::internalReadyStateHandle);
+    connect(this, &PulseAudioController::startUpdates, this, &PulseAudioController::internalStartUpdatesHandle);
     connectPulseAudio();
 }
 
@@ -294,7 +295,7 @@ void PulseAudioController::subscribeCallback(pa_context *c, pa_subscription_even
 {
     auto *self = static_cast<PulseAudioController*>(userdata);
 
-    self->emit readyChanged();
+    self->emit startUpdates();
 }
 
 void PulseAudioController::updateSinks()
@@ -320,18 +321,20 @@ void PulseAudioController::internalReadyStateHandle()
 {
     if (m_ready)
     {
-        // set subscribe callback
-        static bool runOnce = true;
-        if (runOnce)
-        {
-            pa_context_set_subscribe_callback(m_context, &PulseAudioController::subscribeCallback, this);
-            pa_operation *o = pa_context_subscribe(m_context, PA_SUBSCRIPTION_MASK_ALL, nullptr, nullptr);
-            if (o)
-                pa_operation_unref(o);
-            runOnce = false;
-        }
+        pa_threaded_mainloop_lock(m_mainloop);
+        pa_context_set_subscribe_callback(m_context, &PulseAudioController::subscribeCallback, this);
+        pa_operation *o = pa_context_subscribe(m_context, PA_SUBSCRIPTION_MASK_ALL, nullptr, nullptr);
+        if (o)
+            pa_operation_unref(o);
+        pa_threaded_mainloop_unlock(m_mainloop);
 
         updateSinks();
         updateSources();
     }
+}
+
+void PulseAudioController::internalStartUpdatesHandle()
+{
+    updateSinks();
+    updateSources();
 }
