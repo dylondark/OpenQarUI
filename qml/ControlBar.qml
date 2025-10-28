@@ -170,6 +170,7 @@ Rectangle {
                 to: 1.0
                 stepSize: 0.01
                 value: 0.5
+                live: false
                 Layout.rightMargin: 10
 
                 onValueChanged: {
