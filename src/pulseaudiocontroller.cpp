@@ -132,6 +132,22 @@ void PulseAudioController::setDefaultSink(int index)
     {
         if (sink.index == index)
         {
+            pa_threaded_mainloop_lock(m_mainloop);
+            pa_operation* o;
+
+            if (!(o = pa_context_set_default_sink(
+                m_context,
+                sink.name.toStdString().c_str(),
+                nullptr,
+                nullptr
+                      )))
+            {
+                emit errorOccurred("Could not set default sink.");
+                return;
+            }
+
+            pa_threaded_mainloop_unlock(m_mainloop);
+
             sink.isDefault = true;
             emit defaultSinkChanged();
         }

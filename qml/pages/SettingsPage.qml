@@ -96,5 +96,90 @@ Page {
                 radius: 5
             }
         }
+
+        Frame {
+            Layout.fillWidth: true
+            padding: 16
+
+            ColumnLayout {
+                spacing: 20
+                anchors.verticalCenter: parent.verticalCenter
+
+                Label {
+                    text: "Audio Device"
+                    font.pixelSize: 20
+                    font.bold: true
+                    Layout.fillWidth: true
+                    color: "black"
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+
+                    Label {
+                        text: "Devices: "
+                        font.pixelSize: 16
+                        Layout.fillWidth: false
+                        color: "black"
+                    }
+
+                    Connections {
+                        target: PulseAudioController
+                        function onErrorOccurred(message) {
+                            audioComboBox.currentIndex = -1; // Reset selection on error
+                            audioErrorLabel.text = message;
+                        }
+                    }
+
+                    ComboBox {
+                        id: audioComboBox
+                        Layout.fillWidth: true
+                        textRole: "name"
+                        model: PulseAudioController.sinks
+                        currentIndex: -1 // No selection by default
+
+                        onActivated: {
+                            if (currentIndex >= 0) {
+                                let selectedDevice = model[currentIndex];
+                                let index = selectedDevice.index;
+                                console.log("Selected:", selectedDevice.name, index);
+
+                                audioErrorLabel.text = ""; // Clear previous error
+
+                                // call into c++ to switch default sink
+                                PulseAudioController.setDefaultSink(index);
+                            }
+                        }
+
+                        Component.onCompleted: {
+                            // set the current device if already connected
+                            if (PulseAudioController.ready) {
+                                for (let i = 0; i < model.length; i++) {
+                                    if (model[i].name === PulseAudioController.defaultSink().name) {
+                                        currentIndex = i;
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    Label {
+                        id: audioErrorLabel
+                        text: ""
+                        font.pixelSize: 16
+                        color: "red"
+                        Layout.fillWidth: false
+                    }
+                }
+            }
+
+            background: Rectangle {
+                color: Qt.rgba(0, 0.7, 1, 0.5)
+                border.color: "black"
+                border.width: 1
+                radius: 5
+            }
+        }
     }
 }
