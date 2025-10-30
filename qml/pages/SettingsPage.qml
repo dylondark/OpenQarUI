@@ -181,5 +181,51 @@ Page {
                 radius: 5
             }
         }
+
+        Frame {
+            Layout.fillWidth: true
+            padding: 16
+
+            ColumnLayout {
+                spacing: 20
+                anchors.verticalCenter: parent.verticalCenter
+
+                Label {
+                    text: "Appearance"
+                    font.pixelSize: 20
+                    font.bold: true
+                    Layout.fillWidth: true
+                    color: "black"
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+
+                    Label {
+                        text: "Dark Mode: "
+                        font.pixelSize: 16
+                        Layout.fillWidth: false
+                        color: "black"
+                    }
+
+                    Switch {
+                        id: darkModeSwitch
+                        Layout.fillWidth: true
+                        checked: SettingsController.darkMode
+
+                        onCheckedChanged: {
+                            SettingsController.setDarkMode(checked);
+                        }
+                    }
+                }
+            }
+
+            background: Rectangle {
+                color: Qt.rgba(0, 0.7, 1, 0.5)
+                border.color: "black"
+                border.width: 1
+                radius: 5
+            }
+        }
     }
 }
