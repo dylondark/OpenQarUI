@@ -9,6 +9,8 @@ int main(int argc, char *argv[])
     qputenv("QT_IM_MODULE", QByteArray("qtvirtualkeyboard"));
 
     QGuiApplication app(argc, argv);
+    app.setOrganizationName("dylondark");
+    app.setOrganizationDomain("dylondark.com");
 
     // Register font from resources
     int id = QFontDatabase::addApplicationFont(":/fonts/NotoSans-Regular.ttf");

@@ -24,7 +24,7 @@ LastFMAPIHandler::LastFMAPIHandler(QObject *parent)
 void LastFMAPIHandler::setAPIKey()
 {
     // set the api key from settings
-    QSettings settings("config.ini", QSettings::IniFormat);
+    QSettings settings;
     apiKey = settings.value("API/LastFMKey", "default-value").toString();
 
     QString response = callAPI("track.getInfo", "", {{"track", "Duvet"}, {"artist", "Boa"}, {"autocorrect", "1"}});

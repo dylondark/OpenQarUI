@@ -38,7 +38,7 @@ BluetoothMediaController::BluetoothMediaController(QObject *parent)
     networkThread.start();
 
     // attempt to connect to last device
-    QSettings settings("config.ini", QSettings::IniFormat);
+    QSettings settings;
     QString lastDevice = settings.value("Bluetooth/LastConnectedDevice", "").toString();
     if (!lastDevice.isEmpty() && lastDevice.startsWith("/org/bluez/hci"))
     /*
@@ -78,7 +78,7 @@ void BluetoothMediaController::onPropertiesChanged(const QString &interface, con
         bool connected = changed.value("Connected").toBool();
         if (connected)
         {
-            QSettings settings("config.ini", QSettings::IniFormat);
+            QSettings settings;
             QString lastDevice = settings.value("Bluetooth/LastConnectedDevice", "").toString();
             connectToDevice(lastDevice.last(17));
         }
@@ -336,7 +336,7 @@ void BluetoothMediaController::connectToDevice(const QString &deviceAddress)
     updatePlaybackStatus();
 
     // Save in settings
-    QSettings settings("config.ini", QSettings::IniFormat);
+    QSettings settings;
     settings.setValue("Bluetooth/LastConnectedDevice", devicePath);
 }
 

@@ -3,7 +3,7 @@ import QtQuick.VirtualKeyboard
 import QtQuick.Controls 2.15
 import QtQuick.Layouts 2.15
 import OpenQarUI
-import Qt.labs.settings
+import QtCore
 
 Window {
     id: window
@@ -15,7 +15,6 @@ Window {
     Settings {
         id: appSettings
         category: "Debug"
-        fileName: "config.ini"
     }
 
     // launch in fullscreen unless secret debug setting for windowed mode is enabled
