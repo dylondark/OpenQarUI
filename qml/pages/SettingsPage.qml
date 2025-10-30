@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
+import QtCore
 
 Page {
     id: settingsPage
@@ -211,10 +212,15 @@ Page {
                     Switch {
                         id: darkModeSwitch
                         Layout.fillWidth: true
-                        checked: SettingsController.darkMode
+                        checked: appearanceSettings.value("DarkMode", "false") === "false" ? false : true
 
                         onCheckedChanged: {
-                            SettingsController.setDarkMode(checked);
+                            appearanceSettings.setValue("DarkMode", checked ? "true" : "false");
+                        }
+
+                        Settings {
+                            id: appearanceSettings
+                            category: "Appearance"
                         }
                     }
                 }
