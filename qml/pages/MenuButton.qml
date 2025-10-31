@@ -2,10 +2,11 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.VectorImage
+import OpenQarUI
 
 Rectangle {
     id: baseRect
-    color: Qt.rgba(0, 0.7, 1, 0.5)
+    color: AppearanceData.coloredBackground
     border.color: "black"
     border.width: 1
     Layout.fillWidth: true
@@ -30,7 +31,7 @@ Rectangle {
                 text: baseRect.titleText
                 font.pixelSize: 20
                 font.bold: true
-                color: "black"
+                color: AppearanceData.text
                 opacity: 1.0
             }
         }

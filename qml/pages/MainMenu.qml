@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import OpenQarUI
 
 GridLayout {
     id: baseLayout
@@ -13,7 +14,7 @@ GridLayout {
     MenuButton {
         id: musicButton
         titleText: "Bluetooth Music"
-        iconSource: "qrc:/images/menu_icons/light/bluetooth_music.svg"
+        iconSource: "qrc:/images/menu_icons/" + AppearanceData.darkModeStr + "/bluetooth_music.svg"
 
         MouseArea {
             anchors.fill: parent
@@ -26,7 +27,7 @@ GridLayout {
     MenuButton {
         id: settingsButton
         titleText: "Settings"
-        iconSource: "qrc:/images/menu_icons/light/settings.svg"
+        iconSource: "qrc:/images/menu_icons/" + AppearanceData.darkModeStr + "/settings.svg"
 
         MouseArea {
             anchors.fill: parent

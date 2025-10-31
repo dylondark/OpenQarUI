@@ -6,9 +6,9 @@ import QtQuick.VectorImage
 
 Rectangle {
     id: controlBarBase
-    color: "white"
-    opacity: 0.8
-    border.color: "black"
+    color: AppearanceData.background
+    //opacity: 0.8
+    border.color: AppearanceData.border
     border.width: 1
 
     signal goHomeRequested()
@@ -22,7 +22,7 @@ Rectangle {
             id: homeButton
             Layout.fillHeight: true
             Layout.preferredWidth: height
-            source: "qrc:/images/home/light/home.svg"
+            source: "qrc:/images/home/" + AppearanceData.darkModeStr + "/home.svg"
             fillMode: Image.PreserveAspectFit
             preferredRendererType: VectorImage.CurveRenderer
             Layout.rightMargin: -10
@@ -47,7 +47,7 @@ Rectangle {
                 id: albumImage
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
-                source: BluetoothMediaController.connected ? BluetoothMediaController.coverURL : "qrc:/images/placeholder_image/light/image.png"
+                source: ((!BluetoothMediaController.connected) || (!BluetoothMediaController.coverURL.includes("http"))) ? "qrc:/images/placeholder_image/" + AppearanceData.darkModeStr + "/image.png" : BluetoothMediaController.coverURL
                 Layout.topMargin: 10
                 Layout.bottomMargin: 10
                 smooth: true
@@ -70,6 +70,7 @@ Rectangle {
                     verticalAlignment: Text.AlignVBottom
                     horizontalAlignment: Text.AlignLeft
                     font.bold: true
+                    color: BluetoothMediaController.connected ? AppearanceData.text : "gray"
                 }
 
                 Text {
@@ -80,6 +81,7 @@ Rectangle {
                     font.pixelSize: 20
                     verticalAlignment: Text.AlignVTop
                     horizontalAlignment: Text.AlignLeft
+                    color: AppearanceData.text
                 }
             }
 
@@ -87,7 +89,7 @@ Rectangle {
                 id: previousButton
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
-                source: "qrc:/images/media/light/previous.svg"
+                source: "qrc:/images/media/" + AppearanceData.darkModeStr + "/previous.svg"
                 fillMode: VectorImage.PreserveAspectFit
                 preferredRendererType: VectorImage.CurveRenderer
 
@@ -103,7 +105,7 @@ Rectangle {
                 id: playPauseButton
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
-                source: BluetoothMediaController.playing ? "qrc:/images/media/light/pause.svg" : "qrc:/images/media/light/play.svg"
+                source: BluetoothMediaController.playing ? "qrc:/images/media/" + AppearanceData.darkModeStr + "/pause.svg" : "qrc:/images/media/" + AppearanceData.darkModeStr + "/play.svg"
                 fillMode: VectorImage.PreserveAspectFit
                 preferredRendererType: VectorImage.CurveRenderer
 
@@ -125,7 +127,7 @@ Rectangle {
                 id: nextButton
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
-                source: "qrc:/images/media/light/next.svg"
+                source: "qrc:/images/media/" + AppearanceData.darkModeStr + "/next.svg"
                 fillMode: VectorImage.PreserveAspectFit
                 preferredRendererType: VectorImage.CurveRenderer
 
@@ -150,7 +152,7 @@ Rectangle {
                 id: volumeIcon
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
-                source: "qrc:/images/volume/light/" + Math.ceil(volumeSlider.value / 33.34) + ".svg"
+                source: "qrc:/images/volume/" + AppearanceData.darkModeStr + "/" + Math.ceil(volumeSlider.value / 33.34) + ".svg"
                 fillMode: Image.PreserveAspectFit
                 preferredRendererType: VectorImage.CurveRenderer
 

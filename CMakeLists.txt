@@ -27,6 +27,9 @@ qt_add_executable(appOpenQarUI
     resources.qrc
 )
 
+set_source_files_properties(qml/AppearanceData.qml
+    PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+
 # QML module
 qt_add_qml_module(appOpenQarUI
     URI OpenQarUI
@@ -36,6 +39,7 @@ qt_add_qml_module(appOpenQarUI
         qml/StatusBar.qml
         qml/ControlBar.qml
         qml/ContentPane.qml
+        qml/AppearanceData.qml
         qml/pages/MainMenu.qml
         qml/pages/MenuButton.qml
         qml/pages/SettingsPage.qml

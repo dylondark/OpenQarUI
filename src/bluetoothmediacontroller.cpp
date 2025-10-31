@@ -527,9 +527,9 @@ void BluetoothMediaController::updatePlaybackStatus()
 
         m_coverURL = lfm.getTrackCoverArt(m_title, m_artist, m_album);
 
-        // return placeholder image if no valid URL retrieved
+        // return nothing if no valid URL retrieved
         if (!m_coverURL.contains("https://"))
-            m_coverURL = "qrc:/images/placeholder_image/light/image.png";
+            m_coverURL = "";
 
         emit coverArtRetrieved();
     });

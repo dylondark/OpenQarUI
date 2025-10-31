@@ -2,12 +2,13 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.VectorImage
+import OpenQarUI
 
 Rectangle {
     id: statusBarBase
-    color: "white"
-    opacity: 0.8
-    border.color: "black"
+    color: AppearanceData.background
+    //opacity: 0.8
+    border.color: AppearanceData.border
     border.width: 1
 
     RowLayout {
@@ -84,6 +85,7 @@ Rectangle {
                 text: parent.currentTime
                 font.pixelSize: 20
                 font.bold: true
+                color: AppearanceData.text
             }
         }
 
@@ -107,6 +109,7 @@ Rectangle {
                     text: BluetoothMediaController.connected ? BluetoothMediaController.deviceName : "No BT device connected"
                     font.pixelSize: 20
                     font.bold: false
+                    color: AppearanceData.text
                 }
             }
 
@@ -114,7 +117,7 @@ Rectangle {
                 id: bluetoothIcon
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
-                source: BluetoothMediaController.connected ? "qrc:/images/bluetooth/light/enabled.svg" : "qrc:/images/bluetooth/light/disabled.svg"
+                source: BluetoothMediaController.connected ? "qrc:/images/bluetooth/" + AppearanceData.darkModeStr + "/enabled.svg" : "qrc:/images/bluetooth/" + AppearanceData.darkModeStr + "/disabled.svg"
                 fillMode: VectorImage.PreserveAspectFit
                 preferredRendererType: VectorImage.CurveRenderer
             }
@@ -134,7 +137,7 @@ Rectangle {
                 id: batteryIcon
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
-                source: "qrc:/images/battery/light/" + Math.round(BluetoothMediaController.batteryLevel / 12.5) + ".svg"
+                source: "qrc:/images/battery/" + AppearanceData.darkModeStr + "/" + Math.round(BluetoothMediaController.batteryLevel / 12.5) + ".svg"
                 fillMode: VectorImage.PreserveAspectFit
                 preferredRendererType: VectorImage.CurveRenderer
                 visible: (BluetoothMediaController.batteryLevel != -1)
@@ -151,6 +154,7 @@ Rectangle {
                     text: (BluetoothMediaController.batteryLevel == -1) ? "" : BluetoothMediaController.batteryLevel + "%"
                     font.pixelSize: 20
                     font.bold: false
+                    color: AppearanceData.text
                 }
             }
         }

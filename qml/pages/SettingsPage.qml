@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtCore
+import OpenQarUI
 
 Page {
     id: settingsPage
@@ -26,7 +27,7 @@ Page {
                     font.pixelSize: 20
                     font.bold: true
                     Layout.fillWidth: true
-                    color: "black"
+                    color: AppearanceData.text
                 }
 
                 RowLayout {
@@ -36,7 +37,7 @@ Page {
                         text: "Connected Devices: "
                         font.pixelSize: 16
                         Layout.fillWidth: false
-                        color: "black"
+                        color: AppearanceData.text
                     }
 
                     Connections {
@@ -91,8 +92,8 @@ Page {
             }
 
             background: Rectangle {
-                color: Qt.rgba(0, 0.7, 1, 0.5)
-                border.color: "black"
+                color: AppearanceData.coloredBackground
+                border.color: AppearanceData.border
                 border.width: 1
                 radius: 5
             }
@@ -111,7 +112,7 @@ Page {
                     font.pixelSize: 20
                     font.bold: true
                     Layout.fillWidth: true
-                    color: "black"
+                    color: AppearanceData.text
                 }
 
                 RowLayout {
@@ -121,7 +122,7 @@ Page {
                         text: "Devices: "
                         font.pixelSize: 16
                         Layout.fillWidth: false
-                        color: "black"
+                        color: AppearanceData.text
                     }
 
                     Connections {
@@ -176,8 +177,8 @@ Page {
             }
 
             background: Rectangle {
-                color: Qt.rgba(0, 0.7, 1, 0.5)
-                border.color: "black"
+                color: AppearanceData.coloredBackground
+                border.color: AppearanceData.border
                 border.width: 1
                 radius: 5
             }
@@ -196,7 +197,7 @@ Page {
                     font.pixelSize: 20
                     font.bold: true
                     Layout.fillWidth: true
-                    color: "black"
+                    color: AppearanceData.text
                 }
 
                 RowLayout {
@@ -206,7 +207,7 @@ Page {
                         text: "Dark Mode: "
                         font.pixelSize: 16
                         Layout.fillWidth: false
-                        color: "black"
+                        color: AppearanceData.text
                     }
 
                     Switch {
@@ -216,6 +217,7 @@ Page {
 
                         onCheckedChanged: {
                             appearanceSettings.setValue("DarkMode", checked ? "true" : "false");
+                            AppearanceData.darkMode = checked;
                         }
 
                         Settings {
@@ -227,8 +229,8 @@ Page {
             }
 
             background: Rectangle {
-                color: Qt.rgba(0, 0.7, 1, 0.5)
-                border.color: "black"
+                color: AppearanceData.coloredBackground
+                border.color: AppearanceData.border
                 border.width: 1
                 radius: 5
             }

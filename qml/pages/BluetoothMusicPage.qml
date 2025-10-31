@@ -31,6 +31,7 @@ Page {
                     font.pointSize: 24
                     font.bold: true
                     font.underline: true
+                    color: AppearanceData.text
                 }
             }
 
@@ -48,7 +49,7 @@ Page {
                     Image {
                         id: fullAlbumArt
                         anchors.centerIn: parent
-                        source: BluetoothMediaController.connected ? BluetoothMediaController.coverURL : "qrc:/images/placeholder_image/light/image.png"
+                        source: ((!BluetoothMediaController.connected) || (!BluetoothMediaController.coverURL.includes("http"))) ? "qrc:/images/placeholder_image/" + AppearanceData.darkModeStr + "/image.png" : BluetoothMediaController.coverURL
                         width: parent.width / 1.5
                         height: width
                         sourceSize.width: 300
@@ -81,6 +82,7 @@ Page {
                                 font.pointSize: 24
                                 font.bold: true
                                 horizontalAlignment: Text.AlignHCenter
+                                color: BluetoothMediaController.connected ? AppearanceData.text : "gray"
                             }
 
                             Text {
@@ -91,6 +93,7 @@ Page {
                                 text: BluetoothMediaController.artist
                                 font.pointSize: 24
                                 horizontalAlignment: Text.AlignHCenter
+                                color: AppearanceData.text
                             }
 
                             Text {
@@ -102,6 +105,7 @@ Page {
                                 font.pointSize: 24
                                 font.italic: true
                                 horizontalAlignment: Text.AlignHCenter
+                                color: AppearanceData.text
                             }
                         }
 
@@ -119,7 +123,7 @@ Page {
                                     id: previousButton
                                     Layout.fillHeight: true
                                     Layout.preferredWidth: height
-                                    source: "qrc:/images/media/light/previous.svg"
+                                    source: "qrc:/images/media/" + AppearanceData.darkModeStr + "/previous.svg"
                                     fillMode: VectorImage.PreserveAspectFit
                                     preferredRendererType: VectorImage.CurveRenderer
 
@@ -135,7 +139,7 @@ Page {
                                     id: playPauseButton
                                     Layout.fillHeight: true
                                     Layout.preferredWidth: height
-                                    source: BluetoothMediaController.playing ? "qrc:/images/media/light/pause.svg" : "qrc:/images/media/light/play.svg"
+                                    source: BluetoothMediaController.playing ? "qrc:/images/media/" + AppearanceData.darkModeStr + "/pause.svg" : "qrc:/images/media/" + AppearanceData.darkModeStr + "/play.svg"
                                     fillMode: VectorImage.PreserveAspectFit
                                     preferredRendererType: VectorImage.CurveRenderer
 
@@ -155,7 +159,7 @@ Page {
                                     id: nextButton
                                     Layout.fillHeight: true
                                     Layout.preferredWidth: height
-                                    source: "qrc:/images/media/light/next.svg"
+                                    source: "qrc:/images/media/" + AppearanceData.darkModeStr + "/next.svg"
                                     fillMode: VectorImage.PreserveAspectFit
                                     preferredRendererType: VectorImage.CurveRenderer
 
@@ -174,8 +178,8 @@ Page {
         }
 
         background: Rectangle {
-            color: Qt.rgba(0, 0.7, 1, 0.5)
-            border.color: "black"
+            color: AppearanceData.coloredBackground
+            border.color: AppearanceData.border
             border.width: 1
             radius: 5
         }

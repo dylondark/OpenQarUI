@@ -13,17 +13,26 @@ Window {
     title: qsTr("OpenQarUI")
 
     Settings {
-        id: appSettings
+        id: debugSettings
         category: "Debug"
     }
 
     // launch in fullscreen unless secret debug setting for windowed mode is enabled
-    visibility: appSettings.value("WindowMode", "fullscreen") === "windowed" ? Window.Windowed : Window.FullScreen
+    visibility: debugSettings.value("WindowMode", "fullscreen") === "windowed" ? Window.Windowed : Window.FullScreen
+
+    Settings {
+        id: appearanceSettings
+        category: "Appearance"
+    }
+
+    Component.onCompleted: {
+        AppearanceData.darkMode = appearanceSettings.value("DarkMode", "false") === "false" ? false : true; // set dark mode
+    }
 
     Image {
         id: background
         anchors.fill: parent
-        source: "qrc:/images/default-background.png"
+        source: AppearanceData.darkMode ? "qrc:/images/default-background-dark.png" : "qrc:/images/default-background.png"
         fillMode: Image.PreserveAspectCrop
 
         ColumnLayout {
