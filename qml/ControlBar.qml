@@ -154,7 +154,7 @@ Rectangle {
                 id: volumeIcon
                 Layout.fillHeight: true
                 Layout.preferredWidth: height
-                source: "qrc:/images/volume/" + AppearanceData.darkModeStr + "/" + Math.ceil(volumeSlider.value / 33.34) + ".svg"
+                source: "qrc:/images/volume/" + AppearanceData.darkModeStr + "/" + Math.ceil(volumeSlider.value / 0.3334) + ".svg"
                 fillMode: Image.PreserveAspectFit
                 preferredRendererType: VectorImage.CurveRenderer
 
