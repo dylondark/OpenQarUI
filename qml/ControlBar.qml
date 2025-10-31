@@ -71,6 +71,7 @@ Rectangle {
                     horizontalAlignment: Text.AlignLeft
                     font.bold: true
                     color: BluetoothMediaController.connected ? AppearanceData.text : "gray"
+                    elide: Text.ElideRight
                 }
 
                 Text {
@@ -82,6 +83,7 @@ Rectangle {
                     verticalAlignment: Text.AlignVTop
                     horizontalAlignment: Text.AlignLeft
                     color: AppearanceData.text
+                    elide: Text.ElideRight
                 }
             }
 

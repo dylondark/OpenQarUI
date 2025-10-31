@@ -83,6 +83,7 @@ Page {
                                 font.bold: true
                                 horizontalAlignment: Text.AlignHCenter
                                 color: BluetoothMediaController.connected ? AppearanceData.text : "gray"
+                                elide: Text.ElideRight
                             }
 
                             Text {
@@ -94,6 +95,7 @@ Page {
                                 font.pointSize: 24
                                 horizontalAlignment: Text.AlignHCenter
                                 color: AppearanceData.text
+                                elide: Text.ElideRight
                             }
 
                             Text {
@@ -106,6 +108,7 @@ Page {
                                 font.italic: true
                                 horizontalAlignment: Text.AlignHCenter
                                 color: AppearanceData.text
+                                elide: Text.ElideRight
                             }
                         }
 
