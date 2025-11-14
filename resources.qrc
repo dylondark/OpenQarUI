@@ -51,5 +51,7 @@
         <file>fonts/NotoSans-Regular.ttf</file>
         <file>images/placeholder_image/dark/image.png</file>
         <file>images/placeholder_image/light/image.png</file>
+        <file>images/battery/dark/8.svg</file>
+        <file>images/battery/light/8.svg</file>
     </qresource>
 </RCC>
