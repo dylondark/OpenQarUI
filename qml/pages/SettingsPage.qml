@@ -92,7 +92,7 @@ Page {
             }
 
             background: Rectangle {
-                color: AppearanceData.coloredBackground
+                color: AppearanceData.darkMode ? AppearanceData.accentColorDark : AppearanceData.accentColorLight
                 border.color: AppearanceData.border
                 border.width: 1
                 radius: 5
@@ -177,7 +177,7 @@ Page {
             }
 
             background: Rectangle {
-                color: AppearanceData.coloredBackground
+                color: AppearanceData.darkMode ? AppearanceData.accentColorDark : AppearanceData.accentColorLight
                 border.color: AppearanceData.border
                 border.width: 1
                 radius: 5
@@ -229,7 +229,7 @@ Page {
             }
 
             background: Rectangle {
-                color: AppearanceData.coloredBackground
+                color: AppearanceData.darkMode ? AppearanceData.accentColorDark : AppearanceData.accentColorLight
                 border.color: AppearanceData.border
                 border.width: 1
                 radius: 5
