@@ -46,6 +46,7 @@ qt_add_qml_module(appOpenQarUI
         qml/pages/MusicMenu.qml
         qml/pages/BluetoothMusicPage.qml
         qml/pages/SettingsMenu.qml
+        qml/BackupCamera.qml
     RESOURCES
         resources.qrc
 )

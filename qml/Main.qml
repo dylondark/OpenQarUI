@@ -12,6 +12,8 @@ Window {
     visible: true
     title: qsTr("OpenQarUI")
 
+    property bool backupCameraActive: false
+
     Settings {
         id: debugSettings
         category: "Debug"
@@ -27,6 +29,13 @@ Window {
 
     Component.onCompleted: {
         AppearanceData.darkMode = appearanceSettings.value("DarkMode", "false") === "false" ? false : true; // set dark mode
+    }
+
+    BackupCamera {
+        id: backupCamera
+        anchors.fill: parent
+        z: 9999
+        // this will ideally make itself visible or invisible based on the state of the selected gpio
     }
 
     Image {

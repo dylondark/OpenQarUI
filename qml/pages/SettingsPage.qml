@@ -235,5 +235,45 @@ Page {
                 radius: 5
             }
         }
+
+        Frame {
+            Layout.fillWidth: true
+            padding: 16
+
+            ColumnLayout {
+                spacing: 20
+                anchors.verticalCenter: parent.verticalCenter
+
+                Settings {
+                    id: cameraSettings
+                    category: "BackupCamera"
+                }
+
+                Label {
+                    text: "Backup Camera"
+                    font.pixelSize: 20
+                    font.bold: true
+                    Layout.fillWidth: true
+                    color: AppearanceData.text
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+
+                    Button {
+                        text: "Show"
+
+                        onClicked: { backupCameraActive = true }
+                    }
+                }
+            }
+
+            background: Rectangle {
+                color: AppearanceData.darkMode ? AppearanceData.accentColorDark : AppearanceData.accentColorLight
+                border.color: AppearanceData.border
+                border.width: 1
+                radius: 5
+            }
+        }
     }
 }
