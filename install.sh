@@ -4,7 +4,7 @@ set -e
 # this script currently only supports Debian 13+ based systems (Raspberry Pi OS included)
 
 echo "--- Install Dependencies ---"
-sudo apt install qml6-module-qtquick-virtualkeyboard qt6-base-dev qt6-declarative-dev libpulse-dev cmake build-essential desktop-file-utils
+sudo apt install qml6-module-qtquick-virtualkeyboard qt6-base-dev qt6-declarative-dev qt6-multimedia-dev libpulse-dev cmake build-essential desktop-file-utils
 
 echo "--- Clone Repo and Build ---"
 git clone https://github.com/dylondark/OpenQarUI.git
