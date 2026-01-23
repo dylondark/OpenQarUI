@@ -5,10 +5,8 @@ import "pages" as Pages
 
 ScrollView {
     id: pageBase
-    Layout.fillWidth: true
-    Layout.fillHeight: true
     ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
-    onWidthChanged: column.width = pageBase.width // for some reason the column cant update its own width...
+    //onWidthChanged: column.width = pageBase.width // for some reason the column cant update its own width...
 
     function goHome() {
         stackView.pop(stackView.depth - 1) // pop all items except the first one (main menu)
@@ -16,12 +14,12 @@ ScrollView {
 
     Column {
         id: column
-        height: 1
+        width: pageBase.width
 
         StackView {
             id: stackView
-            anchors.fill: parent
             initialItem: mainMenuComponent
+            anchors.fill: parent
 
             pushEnter: Transition {
                 NumberAnimation { property: "x"; from: pageBase.width; to: 0; duration: 250; easing.type: Easing.InOutQuad }
