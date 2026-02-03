@@ -9,36 +9,35 @@ ScrollView {
     //onWidthChanged: column.width = pageBase.width // for some reason the column cant update its own width...
 
     function goHome() {
-        stackView.pop(stackView.depth - 1) // pop all items except the first one (main menu)
+        swipeView.previousIndex = swipeView.currentIndex
+        swipeView.setCurrentIndex(0)
+        swipeView.animating = true
+        animatingTimer.start()
     }
 
     Column {
         id: column
         width: pageBase.width
 
-        StackView {
-            id: stackView
-            initialItem: mainMenuComponent
-            anchors.fill: parent
+        SwipeView {
+            id: swipeView
+            currentIndex: 0
+            implicitWidth: parent.width
+            orientation: Qt.Horizontal
+            interactive: false
 
-            pushEnter: Transition {
-                NumberAnimation { property: "x"; from: pageBase.width; to: 0; duration: 250; easing.type: Easing.InOutQuad }
+            property bool animating: false
+            property int previousIndex: 0
+
+            Timer {
+                id: animatingTimer
+                interval: 2000
+                repeat: false
+                onTriggered: { swipeView.animating = false }
             }
 
-            popExit: Transition {
-                NumberAnimation { property: "x"; from: 0; to: pageBase.width; duration: 250; easing.type: Easing.InOutQuad }
-            }
-
-            // Home/Main page component
-            Component {
-                id: mainMenuComponent
-
-                Pages.MainMenu {
-                    id: mainMenu
-                    anchors.left: stackView.left
-                    anchors.right: stackView.right
-                    anchors.margins: 10
-                }
+            Pages.MainMenu {
+                id: mainMenu
             }
 
             /*Component {
@@ -63,25 +62,21 @@ ScrollView {
                 }
             }*/
 
-            // Settings page component
-            Component {
-                id: settingsPageComponent
+            Loader {
+                id: bluetoothMusicPageLoader
+                active: swipeView.currentIndex === 1 || (swipeView.previousIndex == 1 && animating)
 
-                Pages.SettingsPage {
-                    id: settingsPage
-                    anchors.fill: parent
-                    //width: pageBase.width
-                    anchors.margins: 10
+                sourceComponent: Pages.BluetoothMusicPage {
+                    id: bluetoothMusicPage
                 }
             }
 
-            Component {
-                id: bluetoothMusicPageComponent
+            Loader {
+                id: settingsPageLoader
+                active: swipeView.currentIndex === 2 || (swipeView.previousIndex == 2 && animating)
 
-                Pages.BluetoothMusicPage {
-                    id: bluetoothMusicPage
-                    anchors.fill: parent
-                    //anchors.margins: 10
+                sourceComponent: Pages.SettingsPage {
+                    id: settingsPage
                 }
             }
         }

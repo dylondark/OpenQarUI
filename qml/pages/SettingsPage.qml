@@ -4,15 +4,18 @@ import QtQuick.Layouts
 import QtCore
 import OpenQarUI
 
-Page {
+Pane {
     id: settingsPage
-    title: "Settings"
+
+    background: Rectangle {
+        color: Qt.rgba(0, 0, 0, 0)
+    }
 
     ColumnLayout {
         id: settingsLayout
         spacing: 24
-        anchors.margins: 24
-        width: parent.width
+        //anchors.margins: 24
+        implicitWidth: parent.width
 
         Frame {
             Layout.fillWidth: true

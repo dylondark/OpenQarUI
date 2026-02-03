@@ -19,7 +19,7 @@ GridLayout {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                stackView.push(bluetoothMusicPageComponent)
+                swipeView.setCurrentIndex(1)
             }
         }
     }
@@ -32,7 +32,7 @@ GridLayout {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                stackView.push(settingsPageComponent)
+                swipeView.setCurrentIndex(2)
             }
         }
     }
