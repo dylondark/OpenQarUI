@@ -278,5 +278,72 @@ Pane {
                 radius: 5
             }
         }
+
+        Frame {
+            Layout.fillWidth: true
+            padding: 16
+
+            ColumnLayout {
+                spacing: 20
+                anchors.verticalCenter: parent.verticalCenter
+
+                Settings {
+                    id: apiSettings
+                    category: "API"
+                }
+
+                Label {
+                    text: "Album Art"
+                    font.pixelSize: 20
+                    font.bold: true
+                    Layout.fillWidth: true
+                    color: AppearanceData.text
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+
+                    Label {
+                        text: "Last.FM API Key: "
+                        font.pixelSize: 16
+                        Layout.fillWidth: false
+                        color: AppearanceData.text
+                    }
+
+                    TextField {
+                        id: lfmKeyField
+                        text: apiSettings.value("LastFMKey", "")
+                        onAccepted: {
+                            apiSettings.setValue("LastFMKey", lfmKeyField.text.trim());
+                            apiSettings.sync();
+                        }
+                    }
+
+                    Button {
+                        id: lfmKeySetButton
+                        text: "Set"
+                        onClicked: {
+                            apiSettings.setValue("LastFMKey", lfmKeyField.text.trim());
+                            apiSettings.sync();
+                        }
+                    }
+                }
+
+                Label {
+                    text: "Setting API key may require a program restart to apply."
+                    font.pixelSize: 16
+                    Layout.fillWidth: false
+                    color: AppearanceData.grayedText
+                    Layout.topMargin: -10
+                }
+            }
+
+            background: Rectangle {
+                color: AppearanceData.darkMode ? AppearanceData.accentColorDark : AppearanceData.accentColorLight
+                border.color: AppearanceData.border
+                border.width: 1
+                radius: 5
+            }
+        }
     }
 }
