@@ -7,7 +7,7 @@ import OpenQarUI
 Rectangle {
     id: baseRect
     color: AppearanceData.darkMode ? AppearanceData.accentColorDark : AppearanceData.accentColorLight
-    border.color: "black"
+    border.color: AppearanceData.border
     border.width: 1
     Layout.fillWidth: true
     Layout.preferredHeight: width
