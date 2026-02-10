@@ -203,6 +203,11 @@ Pane {
                     color: AppearanceData.text
                 }
 
+                Settings {
+                    id: appearanceSettings
+                    category: "Appearance"
+                }
+
                 RowLayout {
                     Layout.fillWidth: true
 
@@ -222,11 +227,44 @@ Pane {
                             appearanceSettings.setValue("DarkMode", checked ? "true" : "false");
                             AppearanceData.darkMode = checked;
                         }
+                    }
+                }
 
-                        Settings {
-                            id: appearanceSettings
-                            category: "Appearance"
-                        }
+                RowLayout {
+                    Layout.fillWidth: true
+
+                    Label {
+                        text: "Accent Color: "
+                        font.pixelSize: 16
+                        Layout.fillWidth: false
+                        color: AppearanceData.text
+                    }
+
+                    Rectangle {
+                        id: accentBlue
+                        Layout.fillHeight: true
+                        width: height
+                        color: Qt.rgba(0, 0, 1, 1)
+                        border.color: AppearanceData.border
+                        radius: width / 2
+                    }
+
+                    Rectangle {
+                        id: accentRed
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        color: Qt.rgba(1, 0, 0, 1)
+                        border.color: AppearanceData.border
+                        radius: width / 2
+                    }
+
+                    Rectangle {
+                        id: accentGreen
+                        Layout.fillHeight: true
+                        Layout.fillWidth: true
+                        color: Qt.rgba(0, 1, 0, 1)
+                        border.color: AppearanceData.border
+                        radius: width / 2
                     }
                 }
             }
